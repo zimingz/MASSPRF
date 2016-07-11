@@ -204,8 +204,8 @@ int PRFCluster::Run(int argc, const char*argv[]) {
   for (i=0; i<pol_seq.size(); i++) {
     if (div_seq[0].length()!=pol_seq[i].length()) throw "Input sequences are not equal in length.";
   }
-  if(pol_seq[0].size()%3!=0) cout<<"Warning: the length of sequences can be divided by 3 (codon size).\n";
-    	//throw "Error: the length of sequences can be divided by 3 (codon size).";
+  if(pol_seq[0].size()%3!=0) cout<<"Warning: the length of sequences can not be divided by 3 (codon size).\n";
+    	//throw "Error: the length of sequences can not be divided by 3 (codon size).";
     //Open and Read the lookup table for numeric integration for the specific number of species
      //special attention to gamma=0,purposely put the corresponding numeric integration to 0; treat separately for this case.
   if (verbose==1){
@@ -881,7 +881,7 @@ cout<<"DR: "<<dr<<endl;
 
   //Estimate the divergence time between species using the information from whole sequence.
 
-cout<<"Species_n="<<species_n<<endl;
+cout<<"Number of Individuals in Polymorphism="<<species_n<<endl;
 /*  cout<<"Divergent Time: "<<divergent_time<<endl;
   cout<<endl;
 */
