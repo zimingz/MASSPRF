@@ -1,0 +1,19 @@
+#!/bin/bash
+#PBS -N scaled_dpgpFBgn0041182_MACPRF_24h
+#PBS -l nodes=1:ppn=8
+#PBS -l walltime=00:23:59:59
+#PBS -q bigmem
+#PBS -k oe
+#PBS -m abe
+#PBS -M sachith.gullapalli@yale.edu
+
+echo '***\ndate******\n'
+
+WORKDIR=~/noahtest
+
+
+cd $WORKDIR
+
+./macprfopt -p dpgpFBgn0041182_consensus_scaled_9poly.txt -o 1 -d dpgpFBgn0041182_consensus_scaled_9div.txt -ci_m 1 -s 1 -t 2.5 -ic 1 -sn 27 >dpgpFBgn0041182_scaled_9_MACPRF_v1.2_24h.txt 
+
+echo '***\ndate******\n'

@@ -1,0 +1,223 @@
+
+MAC-PRF, Version: 1.3 [September 23rd, 2014]
+Reference: Ning Li, Zi-Ming Zhao, Zhang Zhang and Jeffrey P. Townsend. (2014) Regions within coding gene sequences experience diverse intensities of natural selection inferred from polymorphism and divergence.
+
+
+Criterion used: BIC
+
+
+Polymorphism data:
+
+>S288C/CLIB215/CLIB324/I14/IL01/M22/PW5/T73/UC5/Y12/YJM269/YJM320/YJM326/YJM451/YJM653/YPS163/T7_updated/YJM280/YJM421/
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGCTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGCTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATAGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+ATGTTTATGGCAAGACAAGTGTTAAGAAATGGTTTT
+
+
+Divergence data:
+
+>Spar/
+ATGTTTTTGGCAAGACCACCATTAAGAAATGGGCTA
+
+
+
+Open and Read the lookup table for numeric integration:
+
+The number of species in the polymorphism data:19
+
+Extract LookupTable_gx1_n_gamma_integration_50_v9.dat
+
+Vector size after extraction: 201
+
+Extract LookupTable_gx1_derivative_n_gamma_50_v9.dat
+
+Vector size after extraction: 201
+
+Extract LookupTable_gx2_n_gamma_integration_50_v9.dat
+
+Vector size after extraction: 201
+
+Extract LookupTable_gx2_derivative_n_gamma_50_v9.dat
+
+Vector size after extraction: 201
+****** Start RunML
+Polymorphism: ***R**************************R*R***
+Divergence:   ******R*********R*RRR***********-R*R
+
+The gene length: 36 bp
+PS: 0
+DS: 0
+PR: 3
+DR: 7
+Species_n=19
+Divergent Time: 5
+
+Before Clustering (Total Time elapsed: 0:0)
+****** Start Clustering Polymorphism Sysnonymous
+End Clustering Polymorphism Sysnonymous (Time elapsed: 0:0)
+End Clustering Polymorphism Sysnonymous (Total Time elapsed: 0:0)
+****** Start Clustering Polymorphism Replacement
+The total models in ClusterSubSeq: 666
+The total models in ClusterSubSeq: 21
+The total models in ClusterSubSeq: 6
+End Clustering Polymorphism Replacement (Time elapsed: 0:0)
+End Clustering Polymorphism Replacement (Total Time elapsed: 0:0)
+****** Start Model Averaging Polymorphism Replacement
+End Model Averaging Polymorphism Replacement (Time elapsed: 0:0)
+End Model Averaging Polymorphism Replacement (Total Time elapsed: 0:0)
+****** Start Clustering Divergence Replacement
+The total models in ClusterSubSeq: 666
+The total models in ClusterSubSeq: 171
+The total models in ClusterSubSeq: 120
+The total models in ClusterSubSeq: 6
+The total models in ClusterSubSeq: 6
+End Clustering Divergence Replacement (Time elapsed: 0:0)
+End Clustering Divergence Replacement (Total Time elapsed: 0:0)
+****** Start Model Averaging Polymorphism Replacement
+End Model Averaging Polymorphism Replacement (Time elapsed: 0:0)
+End Model Averaging Divergence Replacement (Total Time elapsed: 0:0)
+****** Start r_exact
+Site	PolymorphismModelSize	DivergenceModelSize	AllUsedModels	ModelsWithSavedGammaValues	r_ma	r_ma_prob	CIr_lower	CIr_upper
+1	666	666	443376	425754	-0.717353	-0.827033	-2.27454	3.36606
+Time elapsed: 3m:58s)
+2	666	666	443348	424450	-0.707128	-0.837096	-2.27454	3.31412
+3	666	666	443420	427042	-0.699505	-0.847713	-2.28572	3.30483
+4	666	666	443540	432250	-0.709166	-0.896478	-2.52509	3.30483
+5	666	666	443205	417267	-0.505795	-1.05867	-2.23997	3.45776
+6	666	666	443148	404670	-0.319225	-0.261273	-2.20321	3.61012
+7	666	666	443483	394345	-0.125004	0.384519	-2.16572	3.83095
+8	666	666	442626	375888	-0.00581153	0.688774	-2.13469	3.7924
+9	666	666	441669	360195	0.119982	0.951498	-2.10513	3.90429
+10	666	666	440762	347116	0.245381	1.13915	-2.04034	3.93361
+11	666	666	440031	336525	0.369633	1.54234	-1.93958	3.9849
+Time elapsed: 36m:2s)
+12	666	666	439578	328320	0.494428	1.87485	-1.77622	4.08661
+13	666	666	439481	322423	0.625455	2.1228	-1.61899	4.30992
+14	666	666	439794	318780	0.776172	2.61183	-1.38089	4.66373
+15	666	666	440547	317361	0.981924	3.03803	-1.24983	5.44808
+16	666	666	441746	318160	1.38676	3.95901	-1.19185	8.52216
+17	666	666	443373	321195	2.74063	6.70384	-1.0845	13.97
+18	666	666	443190	320712	2.90469	6.95037	-1.06075	13.97
+19	666	666	443375	322525	4.40442	9.6387	-0.354411	18.5049
+20	666	666	443379	325185	4.45985	9.43223	-0.364222	18.5049
+21	666	666	443385	329175	3.96647	8.18761	-0.857041	17.8192
+Time elapsed: 49m:33s)
+22	666	120	76171	48791	1.39894	1.44898	-1.91416	7.71943
+23	666	120	74871	44631	0.708967	0.229481	-2.06195	5.80378
+24	666	120	74280	42000	0.21182	-1.16684	-2.11322	4.40835
+25	666	120	74205	40425	-0.170299	-1.23179	-2.16981	3.53157
+26	666	120	74592	39960	-0.456906	-2.13605	-2.23257	2.849
+27	666	120	75363	40683	-0.663257	-1.82422	-2.28336	2.6414
+28	666	120	76416	42696	-0.807062	-1.98226	-2.50835	2.6414
+29	666	120	77625	46125	-0.910387	-2.17679	-2.84197	2.6414
+30	666	120	78840	51120	-1.00274	-2.26558	-3.04979	2.5912
+31	21	120	2520	1827	-2.72925	-4.22108	-5.26376	-0.945757
+Time elapsed: 53m:47s)
+32	21	120	2496	1920	-2.31688	-2.7649	-4.85423	-0.466103
+33	21	120	2520	2247	-2.17568	-2.49957	-4.85423	0.0988477
+34	21	120	2520	2040	-1.07241	-0.21093	-3.25927	1.09569
+35	21	120	2514	1785	-0.891372	0.571106	-3.17028	1.09569
+36	21	120	2520	1800	-0.868343	0.4866	-3.05024	1.09569
+End r_exact (Time elapsed: 53:58)
+End r_exact (Total Time elapsed: 53:58)
+End CIr (Total Time elapsed: 53:58)
+
+**************
+Warning: 
+For estimating Neutrality Index (NI), model-averaging and synonymous cluster will be needed. Please set '-s 1 -m 0 -NI 1'. 
+*************
+Before Output (Total Time elapsed: 53:58)
+
+//Results based on model selection: 
+
+Clusters from Polymorphism Synonymous:
+Note: PS=1 or 0. There is not enough information for clustering!
+
+
+Clusters from Polymorphism Replacement:
+1 nucleotide ~ 36 nucleotide	cs= 5	ce= 30
+InL0= -10.3261	InL= -6.10864	AIC0= 22.6522	AIC= 16.2173	AICc0= 22.6522	AICc= 16.5809	BIC0= 22.6522	BIC= 19.3843
+	P0pr= 0.3	Pcpr= 0
+
+31 nucleotide ~ 36 nucleotide	cs= 34	ce= 36
+InL0= -3.81909	InL= -1.90954	AIC0= 9.63817	AIC= 7.81909	AICc0= 9.63817	AICc= 11.8191	BIC0= 9.63817	BIC= 7.4026
+	P0pr= 0.666667	Pcpr= 0
+
+
+Clusters from Divergence Synonymous:
+Note: DS=1 or 0. There is not enough information for clustering!
+
+
+Clusters from Divergence Replacement:
+1 nucleotide ~ 36 nucleotide	cs= 19	ce= 21
+InL0= -17.7337	InL= -12.188	AIC0= 37.4675	AIC= 28.376	AICc0= 37.4675	AICc= 28.7396	BIC0= 37.4675	BIC= 31.543
+P0dr= 0.121212	Pcdr= 1
+
+22 nucleotide ~ 36 nucleotide	cs= 34	ce= 36
+InL0= -5.89012	InL= -1.90954	AIC0= 13.7802	AIC= 7.81909	AICc0= 13.7802	AICc= 8.81909	BIC0= 13.7802	BIC= 9.23519
+P0dr= 0	Pcdr= 0.666667
+
+
+//Results based on model averaging of gamma using different models: 
+Position	      MS_PolSys	     MA_PolSys	     Lower_CI_PolSys	Upper_CI_PolSys	MS_PolRep	     MA_PolRep	     Lower_CI_PolRep	Upper_CI_PolRep	MS_DivSys	     MA_DivSys	     Lower_CI_DivSys	Upper_CI_DivSys	MS_DivRep	     MA_DivRep      	Lower_CI_DivRep	Upper_CI_DivRep	DivergentTime	Gamma          	Lower_CI_Gamma	Upper_CI_Gamma 	PolymorphismMutationStatus	DivergenceMutationStatus
+1              	0              	0              	0              	0              	0.3            	0.142953       	0.030303       	0.3            	0              	0              	0              	0              	0.121212       	0.159223       	0.0769231      	0.28           	5              	-0.717353      	-2.27454       	3.36606        	*              	*              
+2              	0              	0              	0              	0              	0.3            	0.141461       	0.030303       	0.3            	0              	0              	0              	0              	0.121212       	0.155913       	0.0666667      	0.28           	5              	-0.707128      	-2.27454       	3.31412        	*              	*              
+3              	0              	0              	0              	0              	0.3            	0.141451       	0.030303       	0.3            	0              	0              	0              	0              	0.121212       	0.154326       	0.0666667      	0.28           	5              	-0.699505      	-2.28572       	3.30483        	*              	*              
+4              	0              	0              	0              	0              	0.3            	0.1476         	0.03125        	0.3            	0              	0              	0              	0              	0.121212       	0.154012       	0.0666667      	0.28           	5              	-0.709166      	-2.52509       	3.30483        	R              	*              
+5              	0              	0              	0              	0              	0              	0.110972       	0              	0.25           	0              	0              	0              	0              	0.121212       	0.154888       	0.0714286      	0.28           	5              	-0.505795      	-2.23997       	3.45776        	*              	*              
+6              	0              	0              	0              	0              	0              	0.0886903      	0              	0.230769       	0              	0              	0              	0              	0.121212       	0.157153       	0.0769231      	0.28           	5              	-0.319225      	-2.20321       	3.61012        	*              	*              
+7              	0              	0              	0              	0              	0              	0.0727882      	0              	0.214286       	0              	0              	0              	0              	0.121212       	0.16271        	0.0833333      	0.291667       	5              	-0.125004      	-2.16572       	3.83095        	*              	R              
+8              	0              	0              	0              	0              	0              	0.0610242      	0              	0.1875         	0              	0              	0              	0              	0.121212       	0.156569       	0.0666667      	0.28           	5              	-0.00581153    	-2.13469       	3.7924         	*              	*              
+9              	0              	0              	0              	0              	0              	0.0521365      	0              	0.176471       	0              	0              	0              	0              	0.121212       	0.153972       	0              	0.28           	5              	0.119982       	-2.10513       	3.90429        	*              	*              
+10             	0              	0              	0              	0              	0              	0.0453351      	0              	0.166667       	0              	0              	0              	0              	0.121212       	0.153012       	0              	0.285714       	5              	0.245381       	-2.04034       	3.93361        	*              	*              
+11             	0              	0              	0              	0              	0              	0.0401005      	0              	0.15           	0              	0              	0              	0              	0.121212       	0.153525       	0              	0.291667       	5              	0.369633       	-1.93958       	3.9849         	*              	*              
+12             	0              	0              	0              	0              	0              	0.0360805      	0              	0.142857       	0              	0              	0              	0              	0.121212       	0.15568        	0              	0.291667       	5              	0.494428       	-1.77622       	4.08661        	*              	*              
+13             	0              	0              	0              	0              	0              	0.0330322      	0              	0.130435       	0              	0              	0              	0              	0.121212       	0.160049       	0              	0.3125         	5              	0.625455       	-1.61899       	4.30992        	*              	*              
+14             	0              	0              	0              	0              	0              	0.0307869      	0              	0.125          	0              	0              	0              	0              	0.121212       	0.168025       	0              	0.363636       	5              	0.776172       	-1.38089       	4.66373        	*              	*              
+15             	0              	0              	0              	0              	0              	0.0292288      	0              	0.115385       	0              	0              	0              	0              	0.121212       	0.183201       	0              	0.5            	5              	0.981924       	-1.24983       	5.44808        	*              	*              
+16             	0              	0              	0              	0              	0              	0.0282816      	0              	0.111111       	0              	0              	0              	0              	0.121212       	0.21708        	0.0769231      	0.666667       	5              	1.38676        	-1.19185       	8.52216        	*              	*              
+17             	0              	0              	0              	0              	0              	0.0279003      	0              	0.111111       	0              	0              	0              	0              	0.121212       	0.326017       	0.121212       	0.8            	5              	2.74063        	-1.0845        	13.97          	*              	R              
+18             	0              	0              	0              	0              	0              	0.0280671      	0              	0.111111       	0              	0              	0              	0              	0.121212       	0.33851        	0.121212       	0.8            	5              	2.90469        	-1.06075       	13.97          	*              	*              
+19             	0              	0              	0              	0              	0              	0.0287888      	0              	0.115385       	0              	0              	0              	0              	1              	0.461897       	0.15625        	1              	5              	4.40442        	-0.354411      	18.5049        	*              	R              
+20             	0              	0              	0              	0              	0              	0.0300984      	0              	0.12           	0              	0              	0              	0              	1              	0.474111       	0.166667       	1              	5              	4.45985        	-0.364222      	18.5049        	*              	R              
+21             	0              	0              	0              	0              	0              	0.0320581      	0              	0.125          	0              	0              	0              	0              	1              	0.446999       	0.133333       	1              	5              	3.96647        	-0.857041      	17.8192        	*              	R              
+22             	0              	0              	0              	0              	0              	0.0347664      	0              	0.136364       	0              	0              	0              	0              	0              	0.129062       	0              	0.5            	5              	1.39894        	-1.91416       	7.71943        	*              	*              
+23             	0              	0              	0              	0              	0              	0.0383694      	0              	0.142857       	0              	0              	0              	0              	0              	0.0805924      	0              	0.333333       	5              	0.708967       	-2.06195       	5.80378        	*              	*              
+24             	0              	0              	0              	0              	0              	0.04308        	0              	0.157895       	0              	0              	0              	0              	0              	0.0563781      	0              	0.285714       	5              	0.21182        	-2.11322       	4.40835        	*              	*              
+25             	0              	0              	0              	0              	0              	0.0492101      	0              	0.166667       	0              	0              	0              	0              	0              	0.0431443      	0              	0.25           	5              	-0.170299      	-2.16981       	3.53157        	*              	*              
+26             	0              	0              	0              	0              	0              	0.0572252      	0              	0.1875         	0              	0              	0              	0              	0              	0.0362214      	0              	0.2            	5              	-0.456906      	-2.23257       	2.849          	*              	*              
+27             	0              	0              	0              	0              	0              	0.0678464      	0              	0.2            	0              	0              	0              	0              	0              	0.0337315      	0              	0.181818       	5              	-0.663257      	-2.28336       	2.6414         	*              	*              
+28             	0              	0              	0              	0              	0              	0.0822561      	0              	0.230769       	0              	0              	0              	0              	0              	0.0350609      	0              	0.2            	5              	-0.807062      	-2.50835       	2.6414         	*              	*              
+29             	0              	0              	0              	0              	0              	0.102585       	0              	0.25           	0              	0              	0              	0              	0              	0.0404514      	0              	0.222222       	5              	-0.910387      	-2.84197       	2.6414         	*              	*              
+30             	0              	0              	0              	0              	0              	0.133423       	0              	0.333333       	0              	0              	0              	0              	0              	0.0511201      	0              	0.25           	5              	-1.00274       	-3.04979       	2.5912         	*              	*              
+31             	0              	0              	0              	0              	0.666667       	0.552999       	0.2            	1              	0              	0              	0              	0              	0              	0.070027       	0              	0.333333       	5              	-2.72925       	-5.26376       	-0.945757      	R              	*              
+32             	0              	0              	0              	0              	0.666667       	0.424982       	0              	0.666667       	0              	0              	0              	0              	0              	0.104375       	0              	0.4            	5              	-2.31688       	-4.85423       	-0.466103      	*              	*              
+33             	0              	0              	0              	0              	0.666667       	0.489273       	0.2            	1              	0              	0              	0              	0              	0              	0.175152       	0              	0.5            	5              	-2.17568       	-4.85423       	0.0988477      	R              	-              
+34             	0              	0              	0              	0              	0              	0.211204       	0              	0.5            	0              	0              	0              	0              	0.666667       	0.380209       	0.0714286      	0.666667       	5              	-1.07241       	-3.25927       	1.09569        	*              	R              
+35             	0              	0              	0              	0              	0              	0.150161       	0              	0.4            	0              	0              	0              	0              	0.666667       	0.36427        	0.0714286      	0.666667       	5              	-0.891372      	-3.17028       	1.09569        	*              	*              
+36             	0              	0              	0              	0              	0              	0.171381       	0              	0.5            	0              	0              	0              	0              	0.666667       	0.400205       	0.0769231      	1              	5              	-0.868343      	-3.05024       	1.09569        	*              	R              
+
+Abbreviation: MS=Model Selection; MA=Model Averaging; CI=Confidence Interval; ps=Polymorphism Synonymous; pr=Polymorphism Replacement; ds=Divergence Synonymous; dr=Divergence Replacement; Gamma=N*s (Gamma: scaled selection coefficient (selection intensity); N: haploid effective population size; s: selection coefficient); NI=Neutrality Index (NI=(pr/dr)/(ps/ds), >1 Negative selection, <1 Positive selection); INF=Infinite; N-INF=Negative Infinite;
+NULL (Not enough information for this site or both pr=0 and dr=0); NA - gamma value is not available from our calculation.
+
+#End of clustering
+
+End RunML (Total Time elapsed: 53:58)
+
+Mission accomplished. (Time elapsed: 53:58)

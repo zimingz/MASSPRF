@@ -1,0 +1,405 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     15269,        396]
+NotebookOptionsPosition[     14741,        375]
+NotebookOutlinePosition[     15177,        392]
+CellTagsIndexPosition[     15134,        389]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"gx2", "[", "\[Gamma]_", "]"}], ":=", 
+  RowBox[{"NIntegrate", "[", 
+   RowBox[{
+    RowBox[{
+     FractionBox[
+      RowBox[{"1", "-", 
+       SuperscriptBox["x", "n"], "-", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"1", "-", "x"}], ")"}], "n"]}], 
+      RowBox[{"1", "-", "x"}]], " ", 
+     FractionBox[
+      RowBox[{"1", "-", 
+       RowBox[{"Exp", "[", 
+        RowBox[{
+         RowBox[{"-", "2"}], "\[Gamma]", " ", "x"}], "]"}]}], 
+      RowBox[{"2", "\[Gamma]", " ", "x"}]]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", 
+    RowBox[{"Method", "\[Rule]", "\"\<LocalAdaptive\>\""}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"gx2d", "[", "\[Gamma]_", "]"}], ":=", 
+  RowBox[{"NIntegrate", "[", 
+   RowBox[{
+    RowBox[{
+     FractionBox[
+      RowBox[{"1", "-", 
+       SuperscriptBox["x", "n"], "-", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"1", "-", "x"}], ")"}], "n"]}], 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"1", "-", "x"}], ")"}], "x"}]], " ", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"2", "\[Gamma]", "*", "x", "*", 
+        RowBox[{"Exp", "[", 
+         RowBox[{
+          RowBox[{"-", "2"}], "\[Gamma]", "*", "x"}], "]"}]}], "-", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         RowBox[{"Exp", "[", 
+          RowBox[{
+           RowBox[{"-", "2"}], "\[Gamma]", " ", "x"}], "]"}]}], ")"}]}], 
+      RowBox[{"2", 
+       SuperscriptBox[
+        RowBox[{"\[Gamma]", " "}], "2"]}]]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", 
+    RowBox[{"Method", "\[Rule]", "\"\<LocalAdaptive\>\""}]}], 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.5644081191347637`*^9, 3.56440813569459*^9}, {
+   3.5647673336474648`*^9, 3.564767345140004*^9}, {3.564767398900855*^9, 
+   3.56476744245203*^9}, {3.5647675276655493`*^9, 3.5647675339360933`*^9}, {
+   3.56483438831592*^9, 3.564834396366173*^9}, {3.570558845558858*^9, 
+   3.570558846069853*^9}, {3.571065552349872*^9, 3.5710655635882397`*^9}, {
+   3.5710661482301083`*^9, 3.571066150525744*^9}, 3.5711622641891336`*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"gx2r0", "[", "n_", "]"}], ":=", 
+  RowBox[{
+   RowBox[{"-", 
+    FractionBox["1", "n"]}], "+", 
+   RowBox[{"HarmonicNumber", "[", "n", "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"gx2dr0", "[", "n_", "]"}], ":=", 
+  RowBox[{"1", "+", 
+   FractionBox["1", 
+    RowBox[{"n", "+", 
+     SuperscriptBox["n", "2"]}]], "-", 
+   RowBox[{"HarmonicNumber", "[", 
+    RowBox[{"1", "+", "n"}], "]"}]}]}]}], "Input",
+ CellChangeTimes->{{3.564408186678959*^9, 3.564408230407585*^9}, {
+   3.564408275322768*^9, 3.564408384619598*^9}, {3.564408497775896*^9, 
+   3.564408499700335*^9}, {3.564412262974874*^9, 3.56441226487391*^9}, {
+   3.564486702576384*^9, 3.5644867094000893`*^9}, {3.564486954870335*^9, 
+   3.564487049513876*^9}, 3.56448708385984*^9, {3.5647674639248943`*^9, 
+   3.564767520315661*^9}, {3.564768128191947*^9, 3.564768148002439*^9}, {
+   3.564768186014041*^9, 3.564768242706407*^9}, {3.56483239956509*^9, 
+   3.5648324016122637`*^9}, {3.564832674147026*^9, 3.564832689399239*^9}, {
+   3.5648343778836527`*^9, 3.564834407701468*^9}, {3.5648358237722588`*^9, 
+   3.564835828067011*^9}, {3.570538365572947*^9, 3.570538370148726*^9}, {
+   3.570538449991872*^9, 3.570538453254627*^9}, {3.570545879755742*^9, 
+   3.570545925498725*^9}, 3.570558804850555*^9, {3.570701074683772*^9, 
+   3.5707011648609304`*^9}, {3.571065572523903*^9, 3.5710655874232883`*^9}, {
+   3.5710661535117188`*^9, 3.571066157295944*^9}, 3.5711622653285418`*^9, {
+   3.5714123780263977`*^9, 3.571412380512553*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"SetDelayed", "::", "write"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Tag \[NoBreak]\\!\\(Times\\)\[NoBreak] in \
+\[NoBreak]\\!\\(gx1_d\\\\ \\(\\(_r0[n_]\\)\\)\\)\[NoBreak] is Protected. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/write\\\", \
+ButtonNote -> \\\"SetDelayed::write\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.5710658652420607`*^9}],
+
+Cell[BoxData["$Failed"], "Output",
+ CellChangeTimes->{3.571065865277388*^9}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fop", "=", 
+   RowBox[{"OpenAppend", "[", 
+    RowBox[{"\"\<LookupTable_gx2_n_gamma_integration_50_v\>\"", "<>", 
+     RowBox[{"ToString", "[", "$VersionNumber", "]"}], "<>", "\"\<dat\>\""}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"WriteString", "[", 
+   RowBox[{"fop", ",", "\"\<Gamma_gx2\>\"", ",", "\"\<\\t\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Do", "[", 
+   RowBox[{
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"WriteString", "[", 
+       RowBox[{"fop", ",", 
+        RowBox[{"\"\<Gamma=\>\"", "<>", 
+         RowBox[{"ToString", "[", "\[Gamma]", "]"}]}], ",", "\"\<\\t\>\""}], 
+       "]"}], ";"}], "\[IndentingNewLine]", "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"\[Gamma]", ",", 
+      RowBox[{"-", "50"}], ",", "50", ",", "0.5"}], "}"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"WriteString", "[", 
+    RowBox[{"fop", ",", "\"\<\\n\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Do", " ", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"WriteString", "[", 
+        RowBox[{"fop", ",", 
+         RowBox[{"\"\<n=\>\"", "<>", 
+          RowBox[{"ToString", "[", "n", "]"}]}], ",", "\"\<\\t\>\""}], "]"}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"Do", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"\[Gamma]", "\[NotEqual]", "0"}], ",", 
+            RowBox[{"temp1", "=", 
+             RowBox[{"gx2", "[", "\[Gamma]", "]"}]}], ",", 
+            RowBox[{"temp1", "=", 
+             RowBox[{"gx2r0", "[", "n", "]"}]}]}], "]"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{"{", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"WriteString", "[", 
+             RowBox[{"fop", ",", 
+              RowBox[{"temp1", "//", "CForm"}], ",", "\"\<\\t\>\""}], "]"}], 
+            ";"}], "\[IndentingNewLine]", "}"}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"\[Gamma]", ",", 
+           RowBox[{"-", "50"}], ",", "50", ",", "0.5"}], "}"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"WriteString", "[", 
+        RowBox[{"fop", ",", "\"\<\\n\>\""}], "]"}], ";"}], 
+      "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"n", ",", "1", ",", "100", ",", "1"}], "}"}]}], 
+    "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Do", " ", "[", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"WriteString", "[", 
+       RowBox[{"fop", ",", 
+        RowBox[{"\"\<n=\>\"", "<>", 
+         RowBox[{"ToString", "[", "n", "]"}]}], ",", "\"\<\\t\>\""}], "]"}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{"Do", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"\[Gamma]", "\[NotEqual]", "0"}], ",", 
+           RowBox[{"temp1", "=", 
+            RowBox[{"gx2", "[", "\[Gamma]", "]"}]}], ",", 
+           RowBox[{"temp1", "=", 
+            RowBox[{"gx2r0", "[", "n", "]"}]}]}], "]"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{"{", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"WriteString", "[", 
+            RowBox[{"fop", ",", 
+             RowBox[{"temp1", "//", "CForm"}], ",", "\"\<\\t\>\""}], "]"}], 
+           ";"}], "\[IndentingNewLine]", "}"}]}], ",", 
+        RowBox[{"{", 
+         RowBox[{"\[Gamma]", ",", 
+          RowBox[{"-", "50"}], ",", "50", ",", "0.5"}], "}"}]}], "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"WriteString", "[", 
+       RowBox[{"fop", ",", "\"\<\\n\>\""}], "]"}], ";"}], 
+     "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{"n", ",", "150", ",", "1500", ",", "50"}], "}"}]}], 
+   "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Close", "[", "fop", "]"}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"fop", "=", 
+    RowBox[{"OpenAppend", "[", 
+     RowBox[{"\"\<LookupTable_gx2_derivative_n_gamma_50_v\>\"", "<>", 
+      RowBox[{"ToString", "[", "$VersionNumber", "]"}], "<>", "\"\<dat\>\""}],
+      "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"WriteString", "[", 
+    RowBox[{"fop", ",", "\"\<Gamma_gx2_d\>\"", ",", "\"\<\\t\>\""}], "]"}], 
+   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Do", "[", 
+   RowBox[{
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"WriteString", "[", 
+       RowBox[{"fop", ",", 
+        RowBox[{"\"\<Gamma=\>\"", "<>", 
+         RowBox[{"ToString", "[", "\[Gamma]", "]"}]}], ",", "\"\<\\t\>\""}], 
+       "]"}], ";"}], "\[IndentingNewLine]", "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"\[Gamma]", ",", 
+      RowBox[{"-", "50"}], ",", "50", ",", "0.5"}], "}"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"WriteString", "[", 
+    RowBox[{"fop", ",", "\"\<\\n\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Do", " ", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"WriteString", "[", 
+        RowBox[{"fop", ",", 
+         RowBox[{"\"\<n=\>\"", "<>", 
+          RowBox[{"ToString", "[", "n", "]"}]}], ",", "\"\<\\t\>\""}], "]"}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"Do", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"\[Gamma]", "\[NotEqual]", "0"}], ",", 
+            RowBox[{"temp2", "=", 
+             RowBox[{"gx2d", "[", "\[Gamma]", "]"}]}], ",", 
+            RowBox[{"temp2", "=", 
+             RowBox[{"gx2dr0", "[", "n", "]"}]}]}], "]"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{"{", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"WriteString", "[", 
+             RowBox[{"fop", ",", 
+              RowBox[{"temp2", "//", "CForm"}], ",", "\"\<\\t\>\""}], "]"}], 
+            ";"}], "\[IndentingNewLine]", "}"}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"\[Gamma]", ",", 
+           RowBox[{"-", "50"}], ",", "50", ",", "0.5"}], "}"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"WriteString", "[", 
+        RowBox[{"fop", ",", "\"\<\\n\>\""}], "]"}], ";"}], 
+      "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"n", ",", "1", ",", "100", ",", "1"}], "}"}]}], 
+    "\[IndentingNewLine]", "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Do", " ", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"WriteString", "[", 
+        RowBox[{"fop", ",", 
+         RowBox[{"\"\<n=\>\"", "<>", 
+          RowBox[{"ToString", "[", "n", "]"}]}], ",", "\"\<\\t\>\""}], "]"}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"Do", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"\[Gamma]", "\[NotEqual]", "0"}], ",", 
+            RowBox[{"temp2", "=", 
+             RowBox[{"gx2d", "[", "\[Gamma]", "]"}]}], ",", 
+            RowBox[{"temp2", "=", 
+             RowBox[{"gx2dr0", "[", "n", "]"}]}]}], "]"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{"{", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"WriteString", "[", 
+             RowBox[{"fop", ",", 
+              RowBox[{"temp2", "//", "CForm"}], ",", "\"\<\\t\>\""}], "]"}], 
+            ";"}], "\[IndentingNewLine]", "}"}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"\[Gamma]", ",", 
+           RowBox[{"-", "50"}], ",", "50", ",", "0.5"}], "}"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"WriteString", "[", 
+        RowBox[{"fop", ",", "\"\<\\n\>\""}], "]"}], ";"}], 
+      "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"n", ",", "150", ",", "1500", ",", "50"}], "}"}]}], 
+    "\[IndentingNewLine]", "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Close", "[", "fop", "]"}], ";"}], "\n", "\n", "\n", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+  "\n"}], "\n"}], "Input",
+ CellChangeTimes->{{3.5705587685358057`*^9, 3.570558776255365*^9}, {
+  3.570558810256599*^9, 3.570558832409511*^9}, {3.570701193808586*^9, 
+  3.5707012105445433`*^9}, {3.570701249490771*^9, 3.570701249919795*^9}, {
+  3.570701290554119*^9, 3.5707012986505823`*^9}, {3.5707013560938683`*^9, 
+  3.57070138270839*^9}, {3.570701423469722*^9, 3.5707014388796034`*^9}, {
+  3.570728824722043*^9, 3.570728930510725*^9}, {3.5707292135326767`*^9, 
+  3.570729300728519*^9}, {3.570730440227*^9, 3.570730529151299*^9}, {
+  3.570730838414898*^9, 3.570730858586432*^9}, {3.57099845320057*^9, 
+  3.5709985478896227`*^9}, {3.571065673008574*^9, 3.571065774491893*^9}, {
+  3.571066169340958*^9, 3.571066198307213*^9}, {3.5711622737982283`*^9, 
+  3.5711622827105827`*^9}, {3.5714123843590097`*^9, 3.571412390814739*^9}}]
+},
+WindowSize->{1253, 850},
+WindowMargins->{{Automatic, 67}, {98, Automatic}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 2159, 60, 94, "Input"],
+Cell[CellGroupData[{
+Cell[2741, 84, 1530, 29, 87, "Input"],
+Cell[4274, 115, 507, 10, 24, "Message"],
+Cell[4784, 127, 76, 1, 28, "Output"]
+}, Open  ]],
+Cell[4875, 131, 9862, 242, 1474, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

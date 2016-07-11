@@ -1,0 +1,270 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      7760,        261]
+NotebookOptionsPosition[      6978,        229]
+NotebookOutlinePosition[      7338,        245]
+CellTagsIndexPosition[      7295,        242]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"gx2", "[", "\[Gamma]_", "]"}], ":=", 
+  RowBox[{"NIntegrate", "[", 
+   RowBox[{
+    RowBox[{
+     FractionBox[
+      RowBox[{"1", "-", 
+       SuperscriptBox["x", "n"], "-", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"1", "-", "x"}], ")"}], "n"]}], 
+      RowBox[{"1", "-", "x"}]], " ", 
+     FractionBox[
+      RowBox[{"1", "-", 
+       RowBox[{"Exp", "[", 
+        RowBox[{
+         RowBox[{"-", "2"}], "\[Gamma]", " ", "x"}], "]"}]}], 
+      RowBox[{"2", "\[Gamma]", " ", "x"}]]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", 
+    RowBox[{"Method", "\[Rule]", "\"\<LocalAdaptive\>\""}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"gx2_d", "[", "\[Gamma]_", "]"}], ":=", 
+  RowBox[{"NIntegrate", "[", 
+   RowBox[{
+    RowBox[{
+     FractionBox[
+      RowBox[{"1", "-", 
+       SuperscriptBox["x", "n"], "-", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"1", "-", "x"}], ")"}], "n"]}], 
+      RowBox[{"1", "-", "x"}]], " ", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"2", "\[Gamma]", "*", "x", "*", 
+        RowBox[{"Exp", "[", 
+         RowBox[{
+          RowBox[{"-", "2"}], "\[Gamma]", "*", "x"}], "]"}]}], "-", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         RowBox[{"Exp", "[", 
+          RowBox[{
+           RowBox[{"-", "2"}], "\[Gamma]", " ", "x"}], "]"}]}], ")"}]}], 
+      RowBox[{"2", 
+       SuperscriptBox[
+        RowBox[{"\[Gamma]", " "}], "2"], " ", "x"}]]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", 
+    RowBox[{"Method", "\[Rule]", "\"\<LocalAdaptive\>\""}]}], 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.5644081191347637`*^9, 3.56440813569459*^9}, {
+  3.5647673336474648`*^9, 3.564767345140004*^9}, {3.564767398900855*^9, 
+  3.56476744245203*^9}, {3.5647675276655493`*^9, 3.5647675339360933`*^9}, {
+  3.56483438831592*^9, 3.564834396366173*^9}, {3.570558845558858*^9, 
+  3.570558846069853*^9}, {3.570650719615838*^9, 3.5706507235470448`*^9}, {
+  3.571145203202119*^9, 3.571145207847851*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Limit", "[", 
+  RowBox[{
+   FractionBox[
+    RowBox[{"1", "-", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "2"}], "\[Gamma]", " ", "x"}], "]"}]}], 
+    RowBox[{"2", "\[Gamma]", " ", "x"}]], ",", 
+   RowBox[{"\[Gamma]", "\[Rule]", "0"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{
+    FractionBox[
+     RowBox[{"1", "-", 
+      SuperscriptBox["x", "n"], "-", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"1", "-", "x"}], ")"}], "n"]}], 
+     RowBox[{"1", "-", "x"}]], " ", "%"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "0", ",", "1"}], "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.5706507357930665`*^9, 3.570650758631507*^9}, {
+  3.570650844916258*^9, 3.5706508658358946`*^9}}],
+
+Cell[BoxData["1"], "Output",
+ CellChangeTimes->{{3.570650740192274*^9, 3.570650759286708*^9}, {
+  3.5706508478802633`*^9, 3.5706508663506956`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ConditionalExpression", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox["1", "n"]}], "+", 
+    RowBox[{"HarmonicNumber", "[", "n", "]"}]}], ",", 
+   RowBox[{
+    RowBox[{"Re", "[", "n", "]"}], ">", "0"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.570650740192274*^9, 3.570650759286708*^9}, {
+  3.5706508478802633`*^9, 3.570650875695112*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Limit", "[", 
+  RowBox[{
+   FractionBox[
+    RowBox[{
+     RowBox[{"2", "\[Gamma]", "*", "x", "*", 
+      RowBox[{"Exp", "[", 
+       RowBox[{
+        RowBox[{"-", "2"}], "\[Gamma]", "*", "x"}], "]"}]}], "-", 
+     RowBox[{"(", 
+      RowBox[{"1", "-", 
+       RowBox[{"Exp", "[", 
+        RowBox[{
+         RowBox[{"-", "2"}], "\[Gamma]", " ", "x"}], "]"}]}], ")"}]}], 
+    RowBox[{"2", 
+     SuperscriptBox[
+      RowBox[{"\[Gamma]", " "}], "2"], " ", "x"}]], ",", 
+   RowBox[{"\[Gamma]", "\[Rule]", "0"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{
+    FractionBox[
+     RowBox[{"1", "-", 
+      SuperscriptBox["x", "n"], "-", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"1", "-", "x"}], ")"}], "n"]}], 
+     RowBox[{"1", "-", "x"}]], " ", "%"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "0", ",", "1"}], "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.570650870625103*^9, 3.570650890967539*^9}}],
+
+Cell[BoxData[
+ RowBox[{"-", "x"}]], "Output",
+ CellChangeTimes->{{3.5706508757263126`*^9, 3.570650891887941*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ConditionalExpression", "[", 
+  RowBox[{
+   RowBox[{"1", "+", 
+    FractionBox["1", 
+     RowBox[{"n", "+", 
+      SuperscriptBox["n", "2"]}]], "-", 
+    RowBox[{"HarmonicNumber", "[", 
+     RowBox[{"1", "+", "n"}], "]"}]}], ",", 
+   RowBox[{
+    RowBox[{"Re", "[", "n", "]"}], ">", "0"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.5706508757263126`*^9, 3.5706509020591583`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Table", "[", 
+  RowBox[{
+   RowBox[{"HarmonicNumber", "[", "n", "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"n", ",", "10"}], "}"}]}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"1", ",", 
+   FractionBox["3", "2"], ",", 
+   FractionBox["11", "6"], ",", 
+   FractionBox["25", "12"], ",", 
+   FractionBox["137", "60"], ",", 
+   FractionBox["49", "20"], ",", 
+   FractionBox["363", "140"], ",", 
+   FractionBox["761", "280"], ",", 
+   FractionBox["7129", "2520"], ",", 
+   FractionBox["7381", "2520"]}], "}"}]], "Output",
+ CellChangeTimes->{3.570650944258233*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Table", "[", 
+  RowBox[{
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     FractionBox["1", "m"], ",", 
+     RowBox[{"{", 
+      RowBox[{"m", ",", "n"}], "}"}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"n", ",", "10"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.5706509451630344`*^9, 3.570650958017457*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"1", ",", 
+   FractionBox["3", "2"], ",", 
+   FractionBox["11", "6"], ",", 
+   FractionBox["25", "12"], ",", 
+   FractionBox["137", "60"], ",", 
+   FractionBox["49", "20"], ",", 
+   FractionBox["363", "140"], ",", 
+   FractionBox["761", "280"], ",", 
+   FractionBox["7129", "2520"], ",", 
+   FractionBox["7381", "2520"]}], "}"}]], "Output",
+ CellChangeTimes->{3.5706509584542575`*^9}]
+}, Open  ]]
+},
+WindowSize->{1350, 633},
+WindowMargins->{{214, Automatic}, {Automatic, 141}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 2087, 58, 94, "Input"],
+Cell[CellGroupData[{
+Cell[2669, 82, 785, 23, 89, "Input"],
+Cell[3457, 107, 147, 2, 28, "Output"],
+Cell[3607, 111, 381, 10, 47, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4025, 126, 986, 30, 91, "Input"],
+Cell[5014, 158, 113, 2, 28, "Output"],
+Cell[5130, 162, 403, 11, 48, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5570, 178, 173, 5, 28, "Input"],
+Cell[5746, 185, 421, 12, 48, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6204, 202, 332, 10, 48, "Input"],
+Cell[6539, 214, 423, 12, 48, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

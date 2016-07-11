@@ -1,0 +1,258 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      7521,        249]
+NotebookOptionsPosition[      6853,        221]
+NotebookOutlinePosition[      7213,        237]
+CellTagsIndexPosition[      7170,        234]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"gx1", "[", "\[Gamma]_", "]"}], ":=", 
+  RowBox[{"NIntegrate", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"1", "+", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"1", "-", "x"}], ")"}], 
+        RowBox[{"n", "-", "1"}]]}], ")"}], " ", "*", 
+     FractionBox[
+      RowBox[{"1", "-", 
+       RowBox[{"Exp", "[", 
+        RowBox[{
+         RowBox[{"-", "2"}], "\[Gamma]", " ", "x"}], "]"}]}], 
+      RowBox[{"2", "\[Gamma]", " ", "x"}]]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", 
+    RowBox[{"Method", "\[Rule]", "\"\<LocalAdaptive\>\""}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"gx1_d", "[", "\[Gamma]_", "]"}], ":=", 
+  RowBox[{"NIntegrate", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"1", "+", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"1", "-", "x"}], ")"}], 
+        RowBox[{"n", "-", "1"}]]}], ")"}], "*", " ", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"2", "\[Gamma]", "*", "x", "*", 
+        RowBox[{"Exp", "[", 
+         RowBox[{
+          RowBox[{"-", "2"}], "\[Gamma]", "*", "x"}], "]"}]}], "-", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         RowBox[{"Exp", "[", 
+          RowBox[{
+           RowBox[{"-", "2"}], "\[Gamma]", " ", "x"}], "]"}]}], ")"}]}], 
+      RowBox[{"2", 
+       SuperscriptBox[
+        RowBox[{"\[Gamma]", " "}], "2"], "x"}]]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", 
+    RowBox[{"Method", "\[Rule]", "\"\<LocalAdaptive\>\""}]}], 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.5644081191347637`*^9, 3.56440813569459*^9}, {
+  3.5647673336474648`*^9, 3.564767345140004*^9}, {3.564767398900855*^9, 
+  3.56476744245203*^9}, {3.5647675276655493`*^9, 3.5647675339360933`*^9}, {
+  3.56483438831592*^9, 3.564834396366173*^9}, {3.5705367840112333`*^9, 
+  3.570536834652371*^9}, {3.570536907542119*^9, 3.570536923806168*^9}, {
+  3.570537071851323*^9, 3.570537085018219*^9}, {3.570537126124051*^9, 
+  3.570537131587221*^9}, {3.570537184213036*^9, 3.570537184755054*^9}, {
+  3.570537374247864*^9, 3.570537386343959*^9}, {3.570537670519267*^9, 
+  3.570537683246167*^9}, {3.5706305197086334`*^9, 3.5706305246936398`*^9}, {
+  3.5711451713851547`*^9, 3.571145176863102*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Limit", "[", 
+  RowBox[{
+   FractionBox[
+    RowBox[{"1", "-", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "2"}], "\[Gamma]", " ", "x"}], "]"}]}], 
+    RowBox[{"2", "\[Gamma]", " ", "x"}]], ",", 
+   RowBox[{"\[Gamma]", "\[Rule]", "0"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "+", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"1", "-", "x"}], ")"}], 
+       RowBox[{"n", "-", "1"}]]}], ")"}], " ", "%"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "0", ",", "1"}], "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.570650530496706*^9, 3.5706505496379395`*^9}}],
+
+Cell[BoxData["1"], "Output",
+ CellChangeTimes->{3.5706506430821037`*^9}],
+
+Cell[BoxData[
+ RowBox[{"ConditionalExpression", "[", 
+  RowBox[{
+   RowBox[{"1", "+", 
+    FractionBox["1", "n"]}], ",", 
+   RowBox[{
+    RowBox[{"Re", "[", "n", "]"}], ">", "0"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.570650645578108*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Series", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"2", "\[Gamma]", "*", "x", "*", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "2"}], "\[Gamma]", "*", "x"}], "]"}]}], "-", 
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      RowBox[{"Exp", "[", 
+       RowBox[{
+        RowBox[{"-", "2"}], "\[Gamma]", " ", "x"}], "]"}]}], ")"}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Gamma]", ",", "0", ",", "5"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{3.570650636358492*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   RowBox[{"-", 
+    RowBox[{"2", " ", 
+     SuperscriptBox["x", "2"], " ", 
+     SuperscriptBox["\[Gamma]", "2"]}]}], "+", 
+   FractionBox[
+    RowBox[{"8", " ", 
+     SuperscriptBox["x", "3"], " ", 
+     SuperscriptBox["\[Gamma]", "3"]}], "3"], "-", 
+   RowBox[{"2", " ", 
+    SuperscriptBox["x", "4"], " ", 
+    SuperscriptBox["\[Gamma]", "4"]}], "+", 
+   FractionBox[
+    RowBox[{"16", " ", 
+     SuperscriptBox["x", "5"], " ", 
+     SuperscriptBox["\[Gamma]", "5"]}], "15"], "+", 
+   InterpretationBox[
+    SuperscriptBox[
+     RowBox[{"O", "[", "\[Gamma]", "]"}], "6"],
+    SeriesData[$CellContext`\[Gamma], 0, {}, 2, 6, 1],
+    Editable->False]}],
+  SeriesData[$CellContext`\[Gamma], 
+   0, {(-2) $CellContext`x^2, 
+    Rational[8, 3] $CellContext`x^3, (-2) $CellContext`x^4, 
+    Rational[16, 15] $CellContext`x^5}, 2, 6, 1],
+  Editable->False]], "Output",
+ CellChangeTimes->{3.5706506456093082`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Limit", "[", 
+  RowBox[{
+   FractionBox[
+    RowBox[{
+     RowBox[{"2", "\[Gamma]", "*", "x", "*", 
+      RowBox[{"Exp", "[", 
+       RowBox[{
+        RowBox[{"-", "2"}], "\[Gamma]", "*", "x"}], "]"}]}], "-", 
+     RowBox[{"(", 
+      RowBox[{"1", "-", 
+       RowBox[{"Exp", "[", 
+        RowBox[{
+         RowBox[{"-", "2"}], "\[Gamma]", " ", "x"}], "]"}]}], ")"}]}], 
+    RowBox[{"2", 
+     SuperscriptBox[
+      RowBox[{"\[Gamma]", " "}], "2"], "x"}]], ",", 
+   RowBox[{"\[Gamma]", "\[Rule]", "0"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "+", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"1", "-", "x"}], ")"}], 
+       RowBox[{"n", "-", "1"}]]}], ")"}], " ", "%"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "0", ",", "1"}], "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.570650559107156*^9, 3.570650633644087*^9}}],
+
+Cell[BoxData[
+ RowBox[{"-", "x"}]], "Output",
+ CellChangeTimes->{3.5706506456405077`*^9}],
+
+Cell[BoxData[
+ RowBox[{"ConditionalExpression", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox["1", "2"]}], "-", 
+    FractionBox["1", 
+     RowBox[{"n", "+", 
+      SuperscriptBox["n", "2"]}]]}], ",", 
+   RowBox[{
+    RowBox[{"Re", "[", "n", "]"}], ">", "0"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.5706506486201134`*^9}]
+}, Open  ]]
+},
+WindowSize->{1350, 633},
+WindowMargins->{{248, Automatic}, {154, Automatic}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 2316, 60, 92, "Input"],
+Cell[CellGroupData[{
+Cell[2898, 84, 700, 21, 75, "Input"],
+Cell[3601, 107, 72, 1, 28, "Output"],
+Cell[3676, 110, 242, 7, 47, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3955, 122, 505, 15, 28, "Input"],
+Cell[4463, 139, 953, 28, 50, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5453, 172, 947, 29, 76, "Input"],
+Cell[6403, 203, 89, 2, 28, "Output"],
+Cell[6495, 207, 342, 11, 48, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
