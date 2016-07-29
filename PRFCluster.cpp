@@ -143,7 +143,7 @@ int PRFCluster::Run(int argc, const char*argv[]) {
     if (parseParameter(argc, argv)!=1) throw 1;
     if (site_specific_flag && !(Sys_cluster))
     {
-      cout << "Can't do site_specific calc without -s option" <<endl;
+      cout << "Can't do site_specific divergence time calculation without silent clustering -s option" <<endl;
       throw 1;
     }
     //Check input file names
@@ -198,7 +198,6 @@ int PRFCluster::Run(int argc, const char*argv[]) {
     }
     cout<<endl<<endl;
   }
-
 
     //Check sequences' length
   for (i=0; i<pol_seq.size(); i++) {
@@ -440,7 +439,6 @@ int PRFCluster::output(long N){
    }
  }
 
-
  if(Sys_cluster==1){
   cout<<endl<<"Clusters from Divergence Synonymous:"<<endl;
   if(vec_SelectedModels_ds.size()==0){
@@ -475,7 +473,6 @@ int PRFCluster::output(long N){
     }
   }
 }
-
 cout<<endl<<"Clusters from Divergence Replacement:"<<endl;
 if(vec_SelectedModels_dr.size()==0){
   cout<<"Note: DR=1 or 0. There is not enough information for clustering!"<<endl<<endl;
@@ -569,7 +566,7 @@ if (site_specific_flag)
 {
   for (long i=0;i<N;i++)
   {
-    divergent_time[i] = divergent_time_sums[i]/divergent_time_weights[i];
+    divergent_time[i] = divergent_time_sums[i]/divergent_time_weights[i];//model averaged divergence time for site i
   }
 }
     //Output the values for the data table containing the values of gamma and other relatives.
@@ -611,7 +608,7 @@ if (output_format_num==1)
     cout.width(width);cout<<vec_upper_rate_dr[i];
   }
 
-    	      //Output gamma value and confidence interval of gamma if ci_r==1
+  //Output gamma value and confidence interval of gamma if ci_r==1
   if(r_estimate==1){
     cout<<"\t";cout.width(width);cout<<divergent_time[i]<<"\t";
     if(vec_r[i]==50){
@@ -665,7 +662,6 @@ if (output_format_num==1)
      }
 				}//ci_r
 			  }//r_estimate
-
 
 			  //Estimate Neutrality Index
 			  if(NI_estimate==1){
@@ -1143,8 +1139,6 @@ if(!divtime_flag){
 else{
   divergent_time=vector<double>(N,Div_time);
 }
-
-
 
 
 
@@ -1862,10 +1856,7 @@ int PRFCluster::ModelAveraging(long pos_start, long pos_end, long cs_max, long c
 * Input Parameter:
 * Output:
 ***************************************************/
-
-
 int PRFCluster::CI_MA(struct SiteModels *pointer,long N){
-
   vector<thread> MA_threads;
   int index=0;
 
@@ -1883,14 +1874,14 @@ int PRFCluster::CI_MA(struct SiteModels *pointer,long N){
     MA_threads[i].join();
   }
  	MA_threads.clear();
-
 }
-
-
-
 return 1;
 }
-
+/***************************************************
+* Function:
+* Input Parameter:
+* Output:
+***************************************************/
 void PRFCluster::CI_MA_threaded(struct SiteModels *pointer,long i){
     //probability and weight for all possible models
     vector<CI> CIs;
@@ -1954,7 +1945,7 @@ void PRFCluster::CI_MA_threaded(struct SiteModels *pointer,long i){
     }             
 }
 /***************************************************
-* Function:
+* Function: Get Site Specific divergence time for each site i under each model of ps and ds.
 * Input Parameter:
 * Output:
 ***************************************************/
@@ -1979,10 +1970,11 @@ void PRFCluster::SiteSpecificDivergentTime(long species_n, struct SiteModels* ps
   if (t<0) return;
   div[i] = t;
 }
-
-
-
-
+/***************************************************
+* Function:
+* Input Parameter:
+* Output:
+***************************************************/
 void PRFCluster::DivergentTime(long species_n, long N, vector<double> &div){
   double tmp=0.0;
   double j;
@@ -1990,7 +1982,6 @@ void PRFCluster::DivergentTime(long species_n, long N, vector<double> &div){
   for(j=1.0;j<=species_n-1;j++){
     tmp=tmp+(1/j);
   }
-
 
   double ps=0.0;
   double ds=0.0;
@@ -2045,7 +2036,7 @@ int PRFCluster::r_stochastic(struct SiteModels *pr, struct SiteModels *dr, struc
 
   vector<thread> stochastic_threads;
   int index=0;
-  std::ostringstream thread_outputs[NUM_CPU];
+  ostringstream* thread_outputs = new ostringstream[NUM_CPU];
 
   while(index<N)
   {
@@ -2064,15 +2055,14 @@ int PRFCluster::r_stochastic(struct SiteModels *pr, struct SiteModels *dr, struc
     thread_outputs[i].clear();
   }
   stochastic_threads.clear();
-
-
 }
-
-
-
 return 1;
 }
-
+/***************************************************
+* Function: use stochastic algorithm to calculate gamma, randomly pick one pr, dr, and ps, ds (if use -ssd)
+* Input Parameter:
+* Output:
+***************************************************/
 void PRFCluster::r_stochastic_threaded(struct SiteModels *pr, struct SiteModels *dr, struct SiteModels *ps, struct SiteModels *ds, long N, long species_n, long i,std::ostringstream* myout){
   int parameters=4; // p0,pc for dr and pr, rate-within-cluster, rate-without-cluster for polymorphism and divergence
   long modelCount_all=0;
@@ -2122,6 +2112,7 @@ void PRFCluster::r_stochastic_threaded(struct SiteModels *pr, struct SiteModels 
     }
     if (TotalSampleNum>TotalModel) {TotalSampleNum=TotalModel;}//choose the smaller one of Model_Number*1000 and Total Model to go through all models, as the cutoff model number when p=0.
     int jj=0; //count all the models sampled, including both p=0 and p!=0
+    int ssd_jj=0;
     for(long j=1;j<=end_num;j++){
       long model_dr=RandomModel_NumFast(DpWeightSums); // create a partial summed weight models first, then find the model with the weight according to the random number by NumberOfModels/2
       long model_pr=RandomModel_NumFast(PpWeightSums); // create a partial summed weight models first, then find the model with the weight according to the random number by NumberOfModels/2
@@ -2131,10 +2122,19 @@ void PRFCluster::r_stochastic_threaded(struct SiteModels *pr, struct SiteModels 
         long model_ps=RandomModel_NumFast(PsWeightSums);
         long model_ds=RandomModel_NumFast(DsWeightSums);
         parameters = 8;
-        SiteSpecificDivergentTime(species_n, ps, ds, model_ps, model_ds, i, divergent_time);
-        divergent_time_sums[i] += divergent_time[i];
-        divergent_time_weights[i] += 1;
-      }
+		  if(ds[i].sms[model_ds].p==0.0 && ps[i].sms[model_ps].p==0.0){
+			continue;
+			ssd_jj++;
+		  }else{
+			SiteSpecificDivergentTime(species_n, ps, ds, model_ps, model_ds, i, divergent_time);
+			divergent_time_sums[i] += divergent_time[i];
+			divergent_time_weights[i] += 1;
+		  }
+		  if (ssd_jj==end_num){
+		  cout<<"Error in calculating site specific divergence time from silent clusters! No silent clustering for the site."<<endl;
+		  throw 1;
+		  }
+      }//end of if (site_specific_flag)
       jj++;//count all the models sampled, including both p=0 and p!=0
       //Re-generate random sample if both pr and dr=0
 	  if(pr[i].sms[model_pr].p==0.0 && dr[i].sms[model_dr].p==0.0){
@@ -2158,11 +2158,11 @@ void PRFCluster::r_stochastic_threaded(struct SiteModels *pr, struct SiteModels 
 			  repeat_num++;
 		  }
 		  continue;
-	  }else{
+	  }//end of if(pr[i].sms[model_pr].p==0.0 && dr[i].sms[model_dr].p==0.0)
+	  else{
 		  //cout<<model_pr<<"\t"<<pr[i].sms[model_pr].weight<<"\t"<<pr[i].sms[model_pr].p<<endl;
 		  double new_r=ModelSpecific_r_PRF(pr[i].sms[model_pr].p,dr[i].sms[model_dr].p,species_n, divergent_time[i]);
 		  modelCount_all++;
-
 		  if (new_r==50 or new_r==-50 or new_r==-99 or new_r==99 or new_r==-66) {
 			  j--;
 			  continue;
@@ -2171,75 +2171,75 @@ void PRFCluster::r_stochastic_threaded(struct SiteModels *pr, struct SiteModels 
 			  rModels tmp_rm(1,new_r);
 			  vec_rModels2.push_back(tmp_rm);
 			  crash_flag = 1;
-
 			  modelCount_gamma++;
-
 		  }
-	  }
+	  }//end of else pr.p=0 and dr.p=0
+	}//end of for(long j=1;j<=end_num;j++)	
+if (verbose==1) {*myout<<modelCount_all<<"\t"<<modelCount_gamma<<"\t";}
+//Find CI and 95% MA for r if wants CI, if CI is not wanted, just do ModelAverage_r
+  if(vec_rModels2.size()==0){
+   vec_r[i]=0;
+   vec_lower_r[i]=0;
+   vec_upper_r[i]=0;
+   cout<< "The gamma models are empty. Put gamma and confidence intervals of gamma as 0 for SITE " << i << endl;
+   return;
+ }
+  else if(flag_mutation==1 and ci_r==1 and crash_flag){
+  CI_UpLow_r_thread(i,min_weight,vec_rModels2);
+  if (verbose==1) {
+	  double r_modelAveraged_p=ModelSpecific_r_PRF(vec_MA_rate_pr[i],vec_MA_rate_dr[i],species_n, divergent_time[i]);//get the gamma based on model averaged pr and dr
+	  *myout<<vec_r[i]<<"\t"<<r_modelAveraged_p <<"\t"<<vec_lower_r[i]<<"\t"<<vec_upper_r[i]<<endl;
 	}
-    if (verbose==1) {*myout<<modelCount_all<<"\t"<<modelCount_gamma<<"\t";}
-
-    //Find CI and 95% MA for r if wants CI, if CI is not wanted, just do ModelAverage_r
-	  if(vec_rModels2.size()==0){
-	   vec_r[i]=0;
-	   vec_lower_r[i]=0;
-	   vec_upper_r[i]=0;
-	 }
-	  else if(flag_mutation==1 and ci_r==1 and crash_flag){
-      CI_UpLow_r_thread(i,min_weight,vec_rModels2);
-      if (verbose==1) {
-          double r_modelAveraged_p=ModelSpecific_r_PRF(vec_MA_rate_pr[i],vec_MA_rate_dr[i],species_n, divergent_time[i]);//get the gamma based on model averaged pr and dr
-          *myout<<vec_r[i]<<"\t"<<r_modelAveraged_p <<"\t"<<vec_lower_r[i]<<"\t"<<vec_upper_r[i]<<endl;
-        }
-      }
-      else if(flag_mutation==1 and ci_r==0 and crash_flag){
-        ModelAveraged_r_thread(i,min_weight,vec_rModels2);
-      }
-      else{
-        *myout<<"Both pr and dr are 0. gamma was not calculated for model averaged gamma, 95% CI gamma!"<<endl;
-        vec_r[i]=0;
-        vec_lower_r[i]=0;
-        vec_upper_r[i]=0;
-      }
-      vec_rModels2.clear();
-
-    }
-
-
-
-
-    int PRFCluster::r_exact (struct SiteModels *pr, struct SiteModels *dr, struct SiteModels *ps, struct SiteModels *ds, long N, long species_n)
-    {
-      time_t time_start=time(NULL);
-      if (verbose==1){
-        cout<<"Site\tPolymorphismModelSize\tDivergenceModelSize\tAllUsedModels\tModelsWithSavedGammaValues\tr_ma\tr_ma_prob\tCIr_lower\tCIr_upper"<<endl;
-      }
-      vector<thread> exact_threads;
-      int index=0;
-      std::ostringstream thread_outputs[NUM_CPU];
-
-      while(index<N)
-      {
-        int num_threads=0;
-        for (int i=0;(i<NUM_CPU && index<N);i++)
-        {
-         exact_threads.push_back(std::thread(&PRFCluster::r_exact_threaded, 
-          this,pr, dr, ps, ds, N, species_n, index,&thread_outputs[i]));
-         index++;
-         num_threads++;
-       }
-       for (long i=0;i<num_threads;i++){
-        exact_threads[i].join();
-        cout << thread_outputs[i].str();
-        thread_outputs[i].str("");
-        thread_outputs[i].clear();
-      }
-      exact_threads.clear();
-    }
-    return 1;
   }
+  else if(flag_mutation==1 and ci_r==0 and crash_flag){
+	ModelAveraged_r_thread(i,min_weight,vec_rModels2);
+  }
+  else{
+	*myout<<"Both pr and dr are 0. gamma was not calculated for model averaged gamma, 95% CI gamma!"<<endl;
+	vec_r[i]=0;
+	vec_lower_r[i]=0;
+	vec_upper_r[i]=0;
+  }
+  vec_rModels2.clear();
+}
+
 /***************************************************
 * Function:
+* Input Parameter:
+* Output:
+***************************************************/
+int PRFCluster::r_exact (struct SiteModels *pr, struct SiteModels *dr, struct SiteModels *ps, struct SiteModels *ds, long N, long species_n)
+{
+  time_t time_start=time(NULL);
+  if (verbose==1){
+	cout<<"Site\tPolymorphismModelSize\tDivergenceModelSize\tAllUsedModels\tModelsWithSavedGammaValues\tr_ma\tr_ma_prob\tCIr_lower\tCIr_upper"<<endl;
+  }
+  vector<thread> exact_threads;
+  int index=0;
+  ostringstream* thread_outputs = new ostringstream[NUM_CPU];
+
+  while(index<N)
+  {
+	int num_threads=0;
+	for (int i=0;(i<NUM_CPU && index<N);i++)
+	{
+	 exact_threads.push_back(std::thread(&PRFCluster::r_exact_threaded, 
+	  this,pr, dr, ps, ds, N, species_n, index,&thread_outputs[i]));
+	 index++;
+	 num_threads++;
+   }
+   for (long i=0;i<num_threads;i++){
+	exact_threads[i].join();
+	cout << thread_outputs[i].str();
+	thread_outputs[i].str("");
+	thread_outputs[i].clear();
+  }
+  exact_threads.clear();
+}
+return 1;
+}
+/***************************************************
+* Function: use exactly algorithm to calculate gamma, use four nested for loops if (-ssd)
 * Input Parameter:
 * Output:
 ***************************************************/
@@ -2259,126 +2259,128 @@ void PRFCluster::r_exact_threaded (struct SiteModels *pr, struct SiteModels *dr,
   modelCount_gamma=0;
   vector<rModels> vec_rModels2;
   vec_rModels2.clear();
-		Dr_Model_Num=dr[i].sms.size();//The total number of divergence replacement models
-		Pr_Model_Num=pr[i].sms.size();//The total number of polymorphism replacement models
-		Ds_Model_Num=ds[i].sms.size();
+	Dr_Model_Num=dr[i].sms.size();//The total number of divergence replacement models
+	Pr_Model_Num=pr[i].sms.size();//The total number of polymorphism replacement models
+	Ds_Model_Num=ds[i].sms.size();
     Ps_Model_Num=ps[i].sms.size();
     //If all the selected models from pr & dr are zero, flag_mutation=0, won't calculate CIs for r.
     if (verbose==1){
      cout<<i+1<<"\t"<<pr[i].sms.size()<<"\t"<<dr[i].sms.size()<<"\t";
    }
-		int flag_mutation=1; //if flag_mutation=0, there is no chance to mutate, no gamma will be calculated
-		for(long j=0;j<Dr_Model_Num;j++){
-			long model_dr=j; //use the real model
-			for(long jj=0;jj<Pr_Model_Num;jj++){
-				long model_pr=jj;
-        if (site_specific_flag)
-        {
-          parameters=6;
-          for(long jjj=0;jjj<Ds_Model_Num;jjj++){
-            long model_ds=jjj;
-            for(long jjjj=0;jjjj<Ps_Model_Num;jjjj++)
-            {
-              long model_ps=jjjj;
-              SiteSpecificDivergentTime(species_n, ps, ds, model_ps, model_ds, i,divergent_time);
+	int flag_mutation=1; //if flag_mutation=0, there is no chance to mutate, no gamma will be calculated
+	for(long j=0;j<Dr_Model_Num;j++){
+		long model_dr=j; //use the real model
+		for(long jj=0;jj<Pr_Model_Num;jj++){
+			long model_pr=jj;
+			if (site_specific_flag)//use site specific divergence time calculated from silent clustering
+			{
+			  parameters=6;
+			  for(long jjj=0;jjj<Ds_Model_Num;jjj++){
+				long model_ds=jjj;
+				for(long jjjj=0;jjjj<Ps_Model_Num;jjjj++)
+				{
+				  long model_ps=jjjj;			  
+				  if(ds[i].sms[model_ds].p==0.0 && ps[i].sms[model_ps].p==0.0){
+					continue;
+				  }else{
+					  SiteSpecificDivergentTime(species_n, ps, ds, model_ps, model_ds, i,divergent_time);
+				  }
+					//Re-generate random sample if both pr and dr=0
+				  if(pr[i].sms[model_pr].p==0.0 && dr[i].sms[model_dr].p==0.0){
+					continue;
+				  }
+				  else{
+				   //cout<<model_pr<<"\t"<<pr[i].sms[model_pr].weight<<"\t"<<pr[i].sms[model_pr].p<<endl;
+					double new_r=ModelSpecific_r_PRF(pr[i].sms[model_pr].p,dr[i].sms[model_dr].p,species_n, divergent_time[i]);
+					modelCount_all++;
+					if (new_r==50 or new_r==-50 or new_r==-99 or new_r==99 or new_r==-66) {
+					  continue;
+					}
+					else {
+						double log_prob_tmp=pr[i].sms[model_pr].LogLikelihood+dr[i].sms[model_dr].LogLikelihood+ps[i].sms[model_ps].LogLikelihood+ds[i].sms[model_ds].LogLikelihood; //already log likelihood, no log any more
+						double AIC_tmp  = -2*log_prob_tmp + 2*parameters;
+						double AICc_tmp = AIC_tmp;
+						if (N-parameters-1>0.0) AICc_tmp += 2*parameters*(parameters+1)/(N-parameters-1);
+						else AICc_tmp = 2*AIC_tmp;
+						double BIC_tmp = -2*log_prob_tmp + parameters*log(double(N));
 
-                    //Re-generate random sample if both pr and dr=0
-              if(pr[i].sms[model_pr].p==0.0 && dr[i].sms[model_dr].p==0.0){
-                continue;
-              }else{
-          //cout<<model_pr<<"\t"<<pr[i].sms[model_pr].weight<<"\t"<<pr[i].sms[model_pr].p<<endl;
-                double new_r=ModelSpecific_r_PRF(pr[i].sms[model_pr].p,dr[i].sms[model_dr].p,species_n, divergent_time[i]);
-                modelCount_all++;
-                if (new_r==50 or new_r==-50 or new_r==-99 or new_r==99 or new_r==-66) {
-                  continue;
-                }
-                else {
-            double log_prob_tmp=pr[i].sms[model_pr].LogLikelihood+dr[i].sms[model_dr].LogLikelihood+ps[i].sms[model_ps].LogLikelihood+ds[i].sms[model_ds].LogLikelihood; //already log likelihood, no log any more
-            double AIC_tmp  = -2*log_prob_tmp + 2*parameters;
-            double AICc_tmp = AIC_tmp;
-            if (N-parameters-1>0.0) AICc_tmp += 2*parameters*(parameters+1)/(N-parameters-1);
-            else AICc_tmp = 2*AIC_tmp;
-            double BIC_tmp = -2*log_prob_tmp + parameters*log(double(N));
+						double weight_tmp = 0;
+							  //BIC
+						if (criterion_type==0){
+						  weight_tmp = BIC_tmp;
+						}
+							  //AIC
+						else if (criterion_type==1){
+						  weight_tmp = AIC_tmp;
+						}
+							  //AICc
+						else if (criterion_type==2){
+						  weight_tmp = AICc_tmp;
+						}
 
-            double weight_tmp = 0;
-                  //BIC
-            if (criterion_type==0){
-              weight_tmp = BIC_tmp;
-            }
-                  //AIC
-            else if (criterion_type==1){
-              weight_tmp = AIC_tmp;
-            }
-                  //AICc
-            else if (criterion_type==2){
-              weight_tmp = AICc_tmp;
-            }
-
-            if (site_specific_flag)
-            {
-              divergent_time_weights[i] += weight_tmp;
-              divergent_time_sums[i] += divergent_time[i] * weight_tmp;
-            } 
-            if(weight_tmp<min_weight) min_weight=weight_tmp;
-            rModels tmp_rm(weight_tmp,new_r);
-            vec_rModels2.push_back(tmp_rm);
-            modelCount_gamma++;
-          }
-        }
-      }
-    }
-  }
-  else{
-              //Re-generate random sample if both pr and dr=0
-    if(pr[i].sms[model_pr].p==0.0 && dr[i].sms[model_dr].p==0.0){
-      continue;
-    }else{
-          //cout<<model_pr<<"\t"<<pr[i].sms[model_pr].weight<<"\t"<<pr[i].sms[model_pr].p<<endl;
-      double new_r=ModelSpecific_r_PRF(pr[i].sms[model_pr].p,dr[i].sms[model_dr].p,species_n, divergent_time[i]);
-      modelCount_all++;
-      if (new_r==50 or new_r==-50 or new_r==-99 or new_r==99 or new_r==-66) {
-        continue;
-      }
-      else {
-            double log_prob_tmp=pr[i].sms[model_pr].LogLikelihood+dr[i].sms[model_dr].LogLikelihood; //already log likelihood, no log any more
-            double weight_tmp=-2*log_prob_tmp+2*parameters;
-            if(weight_tmp<min_weight) min_weight=weight_tmp;
-            rModels tmp_rm(weight_tmp,new_r);
-            vec_rModels2.push_back(tmp_rm);
-            modelCount_gamma++;
-          }
-        }
-      }
-
-    }
-  }
+						if (site_specific_flag)
+						{
+						  divergent_time_weights[i] += weight_tmp;
+						  divergent_time_sums[i] += divergent_time[i] * weight_tmp;
+						} 
+						if(weight_tmp<min_weight) min_weight=weight_tmp;
+						rModels tmp_rm(weight_tmp,new_r);
+						vec_rModels2.push_back(tmp_rm);
+						modelCount_gamma++;
+					  }
+					}
+				}//end of for loop for jjjj
+			}//end of for loop for jjj
+		}//end of if (site_specific_flag)
+	  else{
+				  //Re-generate random sample if both pr and dr=0
+			if(pr[i].sms[model_pr].p==0.0 && dr[i].sms[model_dr].p==0.0){
+			  continue;
+			}else{
+				  //cout<<model_pr<<"\t"<<pr[i].sms[model_pr].weight<<"\t"<<pr[i].sms[model_pr].p<<endl;
+			  double new_r=ModelSpecific_r_PRF(pr[i].sms[model_pr].p,dr[i].sms[model_dr].p,species_n, divergent_time[i]);
+			  modelCount_all++;
+			  if (new_r==50 or new_r==-50 or new_r==-99 or new_r==99 or new_r==-66) {
+				continue;
+			  }
+			  else {
+					double log_prob_tmp=pr[i].sms[model_pr].LogLikelihood+dr[i].sms[model_dr].LogLikelihood; //already log likelihood, no log any more
+					double weight_tmp=-2*log_prob_tmp+2*parameters;
+					if(weight_tmp<min_weight) min_weight=weight_tmp;
+					rModels tmp_rm(weight_tmp,new_r);
+					vec_rModels2.push_back(tmp_rm);
+					modelCount_gamma++;
+				  }
+				}//end of else dr.p and pr.p=0
+		  }//end of else if (!site_specific_flag)
+		}//end of for loop jj
+	  }//end of for loop j
   if (verbose==1) {cout<<modelCount_all<<"\t"<<modelCount_gamma<<"\t";}
 		//Calculate the CIs for r
   if(vec_rModels2.size()==0){
    vec_r[i]=0;
    vec_lower_r[i]=0;
    vec_upper_r[i]=0;
-   cout<< "CAN'T DO ANYTHING: SITE " << i << endl;
+   cout<< "The gamma models are empty. Put gamma and confidence intervals of gamma as 0 for SITE " << i << endl;
    return;
  }
-		//Find CI and 95% MA for r if wants CI, if CI is not wanted, just do ModelAverage_r
- else if(ci_r==1){
+ //Find CI and 95% MA for r if wants CI, if CI is not wanted, just do ModelAverage_r
+ if(ci_r==1){
    CI_UpLow_r_thread(i,min_weight,vec_rModels2);
    if (verbose==1) {
 	  			double r_modelAveraged_p=ModelSpecific_r_PRF(vec_MA_rate_pr[i],vec_MA_rate_dr[i],species_n,divergent_time[i]);//get the gamma based on model averaged pr and dr
 	  			cout<<vec_r[i]<<"\t"<<r_modelAveraged_p <<"\t"<<vec_lower_r[i]<<"\t"<<vec_upper_r[i]<<endl;
 	  		}
       }
-      else if(ci_r==0){
-       ModelAveraged_r_thread(i,min_weight,vec_rModels2);
-       if (verbose==1) {cout<<i<<"\tr: "<<vec_r[i]<<endl;}
-     }
-     if (i%10==0){
-       if (verbose==1) {Time(time_start);}
-     }
-     vec_rModels2.clear();
-
-   }
+  if(ci_r==0){
+   ModelAveraged_r_thread(i,min_weight,vec_rModels2);
+   if (verbose==1) {cout<<i<<"\tr: "<<vec_r[i]<<endl;}
+ }
+ if (i%10==0){
+   if (verbose==1) {Time(time_start);}
+ }
+ vec_rModels2.clear();
+}
 
 /***************************************************
 * Function: Record time
@@ -2537,7 +2539,7 @@ double PRFCluster::ModelSpecific_r_PRF (double p_pr, double p_dr,long species_n,
          gx2=Fn2[gamma]+fraction*2*(Fn2[gamma+1]-Fn2[gamma]);
          gx2_d=Fn2_d[gamma]+fraction*2*(Fn2_d[gamma+1]-Fn2_d[gamma]);
        }
-       else if (-0.5<fraction < 0)
+       else if (-0.5<fraction < 0.0)
        {
          gamma=gamma-1;
          fraction=fabs(fraction+0.5);
@@ -2596,7 +2598,6 @@ double PRFCluster::ModelSpecific_r_PRF (double p_pr, double p_dr,long species_n,
 
    return (new_r);
  }
-
 
 // model averaged gamma
 /***************************************************
@@ -2967,7 +2968,6 @@ int PRFCluster::ModelAveraged_r_thread(long site,double min_weight,vector<rModel
  return 1;
 }
 
-
 /***************************************************
 * Function: parse Parameters in the running command line
 * Input Parameter: int, const char* []
@@ -3131,15 +3131,16 @@ else if (temp=="-S" && (i+1)<argc && synonymous_flag==0){
    throw 1;
  }
 }
-	//Species divergence time from users
+//Utilize site specific divergence time, calculated using silent clustering
 else if (temp=="-SSD"){
+  cout<<"Utilize site specific divergence time, calculated using silent clustering."<<endl;
   site_specific_flag=1;
   if (divtime_flag)
   {
     throw 1;
   }
 }
-
+//User input species divergence time
 else if (temp=="-T" && (i+1)<argc && divtime_flag==0){
   double num=CONVERT<double>(argv[++i]);
   Div_time = num;
@@ -3226,7 +3227,6 @@ else{
   throw 1;
 }
 
-
 }
 }
 }
@@ -3268,11 +3268,11 @@ void PRFCluster::showHelpInfo() {
   cout<<"  -m\tModel selection and model averaging  [integer, optional], {0: use both model selection and model averaging || 1: use only model selection}, default = 0"<<endl;
   cout<<"  -ci_m\tCalculate 95% confidence intervals for results of model averaging [integer, optional], {0: NOT calculate 95% confidence intervals || 1: calculate 95% confidence intervals}, default = 0"<<endl;
   cout<<"  -s\tShow clustering results of synonymous sites from Polymorphism and Divergent sequences [integer, optional], {0: without clustering results of synonymous sites || 1: with clustering results of synonymous and replacement sites}, default = 0"<<endl;
-  cout<<"  -ssd\tEstimate site specific divergence time from sequences (cannot be used in conjunction with -t flag)"<<endl;
+  cout<<"  -ssd\tEstimate site specific divergence time from silent clustering (cannot be used in conjunction with -t flag)"<<endl;
   cout<<"  -r\tEstimate selection coefficient for each site [integer, optional], {0: NOT estimate selection coefficient || 1: estimate selection coefficient}, default=1"<<endl;
   cout<<"  -ci_r\tCalculate 95% confidence intervals for selection coefficient [integer, optional], {0: NOT calculate 95% confidence intervals || 1: calculate 95% confidence intervals}, default = 1"<<endl;
   cout<<"  -exact\tAlgorithm for calculating 95% confidence intervals for selection coefficient [integer, optional], {0: use stochastic algorithm || 1: use exact algorithm}, default = 0"<<endl;
-  cout<<"  -t\tSpecies divergence time [Default: estimate species divergence time from the sequences,optional]."<<endl;
+  cout<<"  -t\tSpecies divergence time [Default: estimate species divergence time from the sequences, optional]."<<endl;
   cout<<"  -n\tNucleotide is replaced or seen as gap when it is not A, T, G or C in the sequences [integer, optional], {0: see it as gap || 1: replace this nucleotide with the most frequently used nucleotide in other sequences}, default = 1"<<endl;
   cout<<"  -NI\tEstimate the Neutrality Index for each site [integer, optional], {0: NOT estimate Neutrality Index || 1: estimate Neutrality Index}, default=0"<<endl;
   cout<<"  -v\tVerbose output or not [integer, optional], {0: not verbose, concise output || 1: verbose output}, default=1"<<endl;
@@ -3300,9 +3300,7 @@ void PRFCluster::showHelpInfo() {
   cout<<"CONTACT:"<<endl;
   cout<<"Please send suggestions or bugs to Ning Li (lin.cmb@gmail.com), Zi-Ming Zhao (ziming.gt@gmail.com) and Jeffrey Townsend (Jeffrey.Townsend@Yale.edu)."<<endl;
   cout<<endl;
-
 }
-
 /***************************************************
 * Function:use model averaged pr and dr to estimate gamma
 * Input Parameter:
@@ -3316,339 +3314,3 @@ int PRFCluster::SitePRF(int species_n,long N){
  }
  return 1;
 }
-
-
-/* To be delete
-
-long PRFCluster::RandomModel_Num(struct SiteModels *p,long site){
-  long model_num=-1;
-  //randomize();
-  double rand_tmp=rand();
-  //RAND_MAX is from system (2147483647)
-  double rand_num=rand_tmp/RAND_MAX;
-  //double rand_tmp=rand()%(Model_Number*Model_Number);
-  //double rand_num=rand_tmp/(double)(Model_Number*Model_Number);
-  double sum=0.0;
-  for(long i=0;i<p[site].sms.size();i++){
-    if(rand_num==0.0){
-      model_num=i;
-      break;
-    }
-    if(rand_num>sum && rand_num <= p[site].sms[i].weight+sum){
-      model_num=i;
-      break;
-    }else{
-      sum=p[site].sms[i].weight+sum;
-    }
-  }
-
-  return(model_num);
-}
-
-
-// calculating gamma using model averaged polymorphism and divergence probablity directly, alternatively model averaged gamma can be the sum of all model specific gamma multiplying gamma AIC weight calculated from the two likelihood.
-// Calculate gamma for site site
-int PRFCluster::SitePRF(int species_n,long N){
-
-  //Estimate r for each site one by one
-  for(long i=0; i<N; i++){
-
-    //vec_time[i]=divergent_time;
-    if(vec_MA_rate_pr[i]==0 && vec_MA_rate_dr[i]==0){
-    	vec_r[i]=-66;
-    	continue;
-    }
-
-    else if(vec_MA_rate_pr[i]==0 && vec_MA_rate_dr[i]!=0){
-      //Under infinite positive selection
-      vec_r[i]=50;
-      continue;
-
-    }
-     //To be deleted: Under infinite negative selection
-    else if(vec_MA_rate_dr[i]==0 && vec_MA_rate_pr[i]!=0){
-
-      vec_r[i]=-50;
-      continue;
-    }
-
-
-    double tmp=vec_MA_rate_dr[i]/vec_MA_rate_pr[i];
-    double f, df; //f and df are corresponding to Equation (12) and (13) in the paper
-    double rtn,dx;
-    int gamma=0;
-    double gx1,gx1_d,gx2,gx2_d;//gx is F(n); gx_d is the first derivation of r for F(n)
-    bool flag_root=false;
-
-   double initial_r=0.0; //bug1: to get the original gamma in the rtn<=IR_H loop if break from the inside JMAX loop, without this, the bug is caused by the new calculated gamma passing from JMAX loop not following the rules in IR_H, and can be outside the gamma boudary of IR_L and IR_H.
-
-   //bug2: keep the optimal gamma with the smallest dx if no gamma value qualified the criteria ER
-   double min_dx=49;
-   double r_optimal=-99;
-   double f_optimal= 49;
-   double df_optimal=49;
-   double tmp_optimal=49;
-
-    //For each initial gamma, iterating till hit JMAX=200 or the criteria.
-    //cout<<endl<<endl<<"******Start SitePRF for Site "<<i<< "******"<<endl;
-    for(rtn=IR_L;rtn<=IR_H;rtn+=0.1){
-      if(flag_root==true){
-		break;
-      }
-      initial_r=rtn;
-      //cout<<endl<<"****** Restart cycle for Gamma "<<rtn<<endl;
-
-      for(int j=1; j<=JMAX; j++){
-    	  gx1=0.0; //initialization. x=0; g(x=0)=0
-          gx1_d=0.0;
-          gx2=0.0;
-          gx2_d=0.0;
-          gamma=int (rtn);
-          double fraction=rtn-gamma;
-          //cout<<endl<<"******Iteration: "<<j<<"  Start Gamma: "<<rtn<<" r_LookupTable: "<<gamma<<" r_fraction: "<<fraction;
-          //For gamma outside the Lookup table range, break the loop
-          if (gamma>50 or gamma<-50) {
-        	  break;
-          }
-         gamma= (gamma+50)*2; //gamma in the table are from -50 to 50
-
-         //Get Fn, Fn' values from Lookup table, the vector of Fn and Fn_r_derivative
-         //consider separately for fraction, solving the bugs of failing to calculated gx
-          if (1>fraction >= 0.5)
-          {
-              gamma=gamma+1;
-              fraction=fraction-0.5;
-        	  gx1=Fn1[gamma]+fraction*2*(Fn1[gamma+1]-Fn1[gamma]);
-              gx1_d=Fn1_d[gamma]+fraction*2*(Fn1_d[gamma+1]-Fn1_d[gamma]);
-              gx2=Fn2[gamma]+fraction*2*(Fn2[gamma+1]-Fn2[gamma]);
-              gx2_d=Fn2_d[gamma]+fraction*2*(Fn2_d[gamma+1]-Fn2_d[gamma]);
-          }
-          else if (0<fraction<0.5)
-          {
-        	  gx1=Fn1[gamma]+fraction*2*(Fn1[gamma+1]-Fn1[gamma]);
-              gx1_d=Fn1_d[gamma]+fraction*2*(Fn1_d[gamma+1]-Fn1_d[gamma]);
-              gx2=Fn2[gamma]+fraction*2*(Fn2[gamma+1]-Fn2[gamma]);
-              gx2_d=Fn2_d[gamma]+fraction*2*(Fn2_d[gamma+1]-Fn2_d[gamma]);
-          }
-          else if (fraction==0.0) //for gamma=50, there is no gamma+1
-		  {
-
-			  gx1=Fn1[gamma];
-			  gx1_d=Fn1_d[gamma];
-			  gx2=Fn2[gamma];
-			  gx2_d=Fn2_d[gamma];
-		  }
-
-          else if (-1<fraction <=-0.5)
-          {
-              gamma=gamma-2;
-              fraction=fabs(fraction+1);
-        	  gx1=Fn1[gamma]+fraction*2*(Fn1[gamma+1]-Fn1[gamma]);
-              gx1_d=Fn1_d[gamma]+fraction*2*(Fn1_d[gamma+1]-Fn1_d[gamma]);
-              gx2=Fn2[gamma]+fraction*2*(Fn2[gamma+1]-Fn2[gamma]);
-              gx2_d=Fn2_d[gamma]+fraction*2*(Fn2_d[gamma+1]-Fn2_d[gamma]);
-          }
-
-          else if (-0.5<fraction < 0)
-          {
-              gamma=gamma-1;
-              fraction=fabs(fraction+0.5);
-        	  gx1=Fn1[gamma]+fraction*2*(Fn1[gamma+1]-Fn1[gamma]);
-              gx1_d=Fn1_d[gamma]+fraction*2*(Fn1_d[gamma+1]-Fn1_d[gamma]);
-              gx2=Fn2[gamma]+fraction*2*(Fn2[gamma+1]-Fn2[gamma]);
-              gx2_d=Fn2_d[gamma]+fraction*2*(Fn2_d[gamma+1]-Fn2_d[gamma]);
-          }
-          else
-          {
-        	  break;
-          }
-
-          //Test: potential bugs, values in the vectors Fn or values in gx are not assigned or calculated correctly, and the values are zero.
-          //cout<<endl<<" Fn1[gamma]:"<<Fn1[gamma]<<" Fn2[gamma]:"<<Fn2[gamma]<<" Fn1_d[gamma]:"<<Fn1_d[gamma]<<" Fn2_d[gamma]:"<<Fn2_d[gamma];
-          //cout<<endl<<" gx1:"<<gx1<<" gx2:"<<gx2<<" gx1_d:"<<gx1_d<<" gx2_d:"<<gx2_d;
-
-          //the integration of x is divided into two parts for f and df, since the parameter tmp (Prd/Prp) is changing.
-          f=divergent_time+gx1-tmp*gx2; //f(gamma)
-          df=gx1_d-tmp*gx2_d; // f(gamma) derivative
-          dx=f/df; //f(r0)/f(r0)'
-          rtn -= dx; // iteration for gamma using Newton's method, r1=r0-f(r0)/f(r0)'
-
-          //Keep the minimal dx, and optimal gamma
-          if (fabs(dx)<fabs(min_dx)) {
-
-        	  min_dx=fabs(dx);
-        	  r_optimal=rtn;
-        	  f_optimal=f;
-        	  df_optimal=df;
-        	  tmp_optimal=tmp;
-
-          }
-          //cout<<" Prd/Prp: "<<tmp<<" fr: "<<f<<" fr_d: "<<df<<" dx: "<<dx<<" New Gamma: "<<rtn<<endl;
-		if(fabs(dx)<ER) //criteria for quitting the iterations for gamma. ER is the error for the exact gamma, ER=0.001.
-		{
-		  vec_r[i]=rtn;
-
-		  //cout<<endl<<"******Successfully Estimated gamma value!!!!******"<<endl;
-		  //cout<<" Prd/Prp: "<<tmp<<" fr: "<<f<<" fr_d: "<<df<<" dx: "<<dx<<" New Gamma: "<<rtn<<endl<<endl;
-		  flag_root=true;
-		  break;
-		}
-      }
-
-      rtn=initial_r;
-    }
-    //cout<<"Site: "<<i*CODONSIZE<<" Gamma value from SitePRF: "<<vec_r[i*CODONSIZE]<<endl;
-    //If after all iterations, no gamma meets the criteria ER, still keeps the optimal gamma if min_dx<MinDx.
-    if (flag_root==false and min_dx<=MinDx){
-    	vec_r[i]=r_optimal;
-    }
-
-
-    if(flag_root==false and min_dx>MinDx){
-      vec_r[i]=-99; // solved bug2:for No gamma calculated meeting the criteria of ER (Expected Error), keep the gamma with the smallest dx as the optimal to be output.
-
-      //cout<<endl<<"****** Site: "<<i<<" Optimal Gamma was kept in SitePRF!!!******"<<endl;
-      //cout<<" Prd/Prp optimal: "<<tmp_optimal<<" fr_optimal: "<<f_optimal<<" fr_d_optimal: "<<df_optimal<<" min_dx:"<<min_dx<<" New Gamma: "<<r_optimal<<endl<<endl;
-    }
-
-    //cout<<"Gamma: "<<vec_r[i]<<"\toptimal_r: "<<r_optimal<<"\tmin_dx: "<<min_dx<<endl;
-  }
-
-  return 1;
-}
-
-int PRFCluster::CI_UpLow_r_stochastic(long site){
-  //Sort all the models by r, descending
-  for(long i=0;i<vec_rModels.size();i++){
-    for(long j=i+1;j<vec_rModels.size();j++){
-      if(vec_rModels[j].r > vec_rModels[i].r){
-        double tmp_r=0.0;
-	double tmp_w=0.0;
-
-        tmp_r=vec_rModels[j].r;
-        vec_rModels[j].r=vec_rModels[i].r;
-        vec_rModels[i].r=tmp_r;
-
-	tmp_w=vec_rModels[j].weight;
-	vec_rModels[j].weight=vec_rModels[i].weight;
-	vec_rModels[i].weight=tmp_w;
-      }
-    }
-  }
-
-  long models_num=vec_rModels.size();
-  long upper_num=(int)(confidence_interval*models_num)-1;
-  long lower_num=models_num-(int)(confidence_interval*models_num);
-  vec_lower_r[site*CODONSIZE]=vec_rModels[lower_num].r;
-  vec_lower_r[site*CODONSIZE+1]=vec_rModels[lower_num].r;
-  vec_lower_r[site*CODONSIZE+2]=vec_rModels[lower_num].r;
-
-  vec_upper_r[site*CODONSIZE]=vec_rModels[upper_num].r;
-  vec_upper_r[site*CODONSIZE+1]=vec_rModels[upper_num].r;
-  vec_upper_r[site*CODONSIZE+2]=vec_rModels[upper_num].r;
-
-  return 1;
-}
-// To be deleted
-int PRFCluster::CI_UpLow_r_exact(long site,double min_weight){
-  double all_weight=0.0;
-  for(long i=0;i<vec_rModels.size();i++){
-    vec_rModels[i].weight=exp(-0.5*(vec_rModels[i].weight-min_weight));
-    all_weight+=vec_rModels[i].weight;
-  }
-  for(long i=0;i<vec_rModels.size();i++){
-    vec_rModels[i].weight=vec_rModels[i].weight/all_weight;
-  }
-
-  //sort by weight
-  double lower=0.0, upper=0.0;
-  long j;
-
-
-  while (lower<confidence_interval || upper<confidence_interval) {
-    long min_pos=0, max_pos=0;
-    j = 0;
-    int flag_lower=0;
-    while (j<vec_rModels.size()) {
-      if(vec_rModels[j].r<vec_rModels[min_pos].r) min_pos = j;
-      if(vec_rModels[j].r>vec_rModels[max_pos].r) max_pos = j;
-      j++;
-    }
-
-    if(lower<confidence_interval){
-      if(max_pos>min_pos){
-        flag_lower=1;
-      }
-      lower += vec_rModels[min_pos].weight;
-      vec_lower_r[site*CODONSIZE] = vec_rModels[min_pos].r;
-      vec_lower_r[site*CODONSIZE+1] = vec_rModels[min_pos].r;
-      vec_lower_r[site*CODONSIZE+2] = vec_rModels[min_pos].r;
-      vec_rModels.erase(vec_rModels.begin() + min_pos);
-    }
-
-    if(upper<confidence_interval){
-      if(flag_lower==1 && max_pos!=0){
-        max_pos--;
-      }
-      upper += vec_rModels[max_pos].weight;
-      vec_upper_r[site*CODONSIZE] = vec_rModels[max_pos].r;
-      vec_upper_r[site*CODONSIZE+1] = vec_rModels[max_pos].r;
-      vec_upper_r[site*CODONSIZE+2] = vec_rModels[max_pos].r;
-      vec_rModels.erase(vec_rModels.begin() + max_pos);
-    }
-    flag_lower=0;
-
-    if(vec_rModels.size()==0){
-      if(upper > confidence_interval){
-        vec_lower_r[site*CODONSIZE]=vec_upper_r[site*CODONSIZE];
-	vec_lower_r[site*CODONSIZE+1]=vec_upper_r[site*CODONSIZE];
-	vec_lower_r[site*CODONSIZE+2]=vec_upper_r[site*CODONSIZE];
-      }else if(lower > confidence_interval){
-        vec_upper_r[site*CODONSIZE]=vec_lower_r[site*CODONSIZE];
-	vec_upper_r[site*CODONSIZE+1]=vec_lower_r[site*CODONSIZE];
-	vec_upper_r[site*CODONSIZE+2]=vec_lower_r[site*CODONSIZE];
-      }
-      break;
-    }
-    if(vec_rModels.size()==1){
-      if(lower<confidence_interval && upper<confidence_interval){
-        vec_lower_r[site*CODONSIZE]=vec_rModels[0].r;
-	vec_lower_r[site*CODONSIZE+1]=vec_rModels[0].r;
-	vec_lower_r[site*CODONSIZE+2]=vec_rModels[0].r;
-
-        vec_upper_r[site*CODONSIZE]=vec_rModels[0].r;
-	vec_upper_r[site*CODONSIZE+1]=vec_rModels[0].r;
-	vec_upper_r[site*CODONSIZE+2]=vec_rModels[0].r;
-        break;
-      }
-    }
-
-  }
-
-  return 1;
-}
-
-//Bubble sort all the models based on weight, very slow and take a lot of memory
-  int PRFCluster::BubbleSort(struct SiteModels *p, long site){
-
-  //Descending
-  for(long i=0;i<p[site].sms.size();i++){
-    for(long j=i+1;j<p[site].sms.size();j++){
-      if((p[site].sms[j].weight > p[site].sms[i].weight) || ((p[site].sms[j].weight==p[site].sms[i].weight) && (p[site].sms[j].p>p[site].sms[i].p))){
-	double tmp_w=0.0;
-	double tmp_p=0.0;
-
-	tmp_w=p[site].sms[j].weight;
-	p[site].sms[j].weight=p[site].sms[i].weight;
-	p[site].sms[i].weight=tmp_w;
-
-	tmp_p=p[site].sms[j].p;
-        p[site].sms[j].p=p[site].sms[i].p;
-        p[site].sms[i].p=tmp_p;
-      }
-    }
-
-  }
-  return 1;
-}
- */
