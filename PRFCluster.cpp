@@ -406,39 +406,6 @@ int PRFCluster::output(long N){
     }
   }
 
-  cout<<endl<<"Clusters from Polymorphism Replacement:"<<endl;
-  if(vec_SelectedModels_pr.size()==0){
-    cout<<"Note: PR=1 or 0. There is not enough information for clustering!"<<endl<<endl;
-  }else if(vec_SelectedModels_pr.size()==1 && vec_SelectedModels_pr[0].pos_start==vec_SelectedModels_pr[0].cs && vec_SelectedModels_pr[0].pos_end==vec_SelectedModels_pr[0].ce){
-    cout<<"Note: There is no cluster in this Sequences for Polymorphism non-Synonymous"<<endl<<endl;
-  }else{
-    for(long i=0; i<vec_SelectedModels_pr.size(); i++){
-		//Converted the start and end positions for the cluster, the pos_start, pos_end, cs, ce according to the the option output_format_num of amino acid or nucleotide output in output()
-      if (output_format_num==1)
-      {
-       cout<<(vec_SelectedModels_pr[i].pos_start+1)<<" nucleotide ~ "<<(vec_SelectedModels_pr[i].pos_end+1)<<" nucleotide";
-       cout<<"\tcs= "<<(vec_SelectedModels_pr[i].cs+1)<<"\tce= "<<(vec_SelectedModels_pr[i].ce+1);
-     }
-     else if (output_format_num==0)
-     {
-       cout<<(vec_SelectedModels_pr[i].pos_start/3+1)<<" amino acid ~ "<<(vec_SelectedModels_pr[i].pos_end/3+1)<<" amino acid";
-       cout<<"\tcs= "<<(vec_SelectedModels_pr[i].cs/3+1)<<"\tce= "<<(vec_SelectedModels_pr[i].ce/3+1);
-     }
-      //cout<<vec_SelectedModels_pr[i].pos_start<<" ~ "<<vec_SelectedModels_pr[i].pos_end;
-      //cout<<"\tcs= "<<vec_SelectedModels_pr[i].cs<<"\tce= "<<vec_SelectedModels_pr[i].ce;
-     cout<<endl;
-
-     cout<<"InL0= "<<vec_SelectedModels_pr[i].InL0<<"\tInL= "<<vec_SelectedModels_pr[i].InL;
-     cout<<"\tAIC0= "<<vec_SelectedModels_pr[i].AIC0<<"\tAIC= "<<vec_SelectedModels_pr[i].AIC;
-     cout<<"\tAICc0= "<<vec_SelectedModels_pr[i].AICc0<<"\tAICc= "<<vec_SelectedModels_pr[i].AICc;
-     cout<<"\tBIC0= "<<vec_SelectedModels_pr[i].BIC0<<"\tBIC= "<<vec_SelectedModels_pr[i].BIC;
-     cout<<endl;
-
-     cout<<"\tP0pr= "<<vec_SelectedModels_pr[i].p0<<"\tPcpr= "<<vec_SelectedModels_pr[i].pc;
-     cout<<endl<<endl;
-   }
- }
-
  if(Sys_cluster==1){
   cout<<endl<<"Clusters from Divergence Synonymous:"<<endl;
   if(vec_SelectedModels_ds.size()==0){
@@ -473,6 +440,53 @@ int PRFCluster::output(long N){
     }
   }
 }
+
+
+if (site_specific_flag && vec_SelectedModels_ds.size()!=0 && vec_SelectedModels_ps.size()!=0)
+{
+  for (long i=0;i<N;i++)
+  {
+    divergent_time[i] = divergent_time_sums[i]/divergent_time_weights[i];//model averaged divergence time for site i
+  }
+}
+else{
+cout<<"Error in site specific divergence time calculation; -ssd. PS/DS=1 or 0. There is not enough information for silent clustering. Please input divergence time or use the gene level divergence time."<<endl;
+throw 1;
+}
+
+cout<<endl<<"Clusters from Polymorphism Replacement:"<<endl;
+if(vec_SelectedModels_pr.size()==0){
+cout<<"Note: PR=1 or 0. There is not enough information for clustering!"<<endl<<endl;
+}else if(vec_SelectedModels_pr.size()==1 && vec_SelectedModels_pr[0].pos_start==vec_SelectedModels_pr[0].cs && vec_SelectedModels_pr[0].pos_end==vec_SelectedModels_pr[0].ce){
+cout<<"Note: There is no cluster in this Sequences for Polymorphism non-Synonymous"<<endl<<endl;
+}else{
+for(long i=0; i<vec_SelectedModels_pr.size(); i++){
+	//Converted the start and end positions for the cluster, the pos_start, pos_end, cs, ce according to the the option output_format_num of amino acid or nucleotide output in output()
+  if (output_format_num==1)
+  {
+   cout<<(vec_SelectedModels_pr[i].pos_start+1)<<" nucleotide ~ "<<(vec_SelectedModels_pr[i].pos_end+1)<<" nucleotide";
+   cout<<"\tcs= "<<(vec_SelectedModels_pr[i].cs+1)<<"\tce= "<<(vec_SelectedModels_pr[i].ce+1);
+ }
+ else if (output_format_num==0)
+ {
+   cout<<(vec_SelectedModels_pr[i].pos_start/3+1)<<" amino acid ~ "<<(vec_SelectedModels_pr[i].pos_end/3+1)<<" amino acid";
+   cout<<"\tcs= "<<(vec_SelectedModels_pr[i].cs/3+1)<<"\tce= "<<(vec_SelectedModels_pr[i].ce/3+1);
+ }
+  //cout<<vec_SelectedModels_pr[i].pos_start<<" ~ "<<vec_SelectedModels_pr[i].pos_end;
+  //cout<<"\tcs= "<<vec_SelectedModels_pr[i].cs<<"\tce= "<<vec_SelectedModels_pr[i].ce;
+ cout<<endl;
+
+ cout<<"InL0= "<<vec_SelectedModels_pr[i].InL0<<"\tInL= "<<vec_SelectedModels_pr[i].InL;
+ cout<<"\tAIC0= "<<vec_SelectedModels_pr[i].AIC0<<"\tAIC= "<<vec_SelectedModels_pr[i].AIC;
+ cout<<"\tAICc0= "<<vec_SelectedModels_pr[i].AICc0<<"\tAICc= "<<vec_SelectedModels_pr[i].AICc;
+ cout<<"\tBIC0= "<<vec_SelectedModels_pr[i].BIC0<<"\tBIC= "<<vec_SelectedModels_pr[i].BIC;
+ cout<<endl;
+
+ cout<<"\tP0pr= "<<vec_SelectedModels_pr[i].p0<<"\tPcpr= "<<vec_SelectedModels_pr[i].pc;
+ cout<<endl<<endl;
+}
+}
+ 
 cout<<endl<<"Clusters from Divergence Replacement:"<<endl;
 if(vec_SelectedModels_dr.size()==0){
   cout<<"Note: DR=1 or 0. There is not enough information for clustering!"<<endl<<endl;
@@ -562,13 +576,6 @@ cout.width(width); cout<<"\tPolymorphismMutationStatus\t";
 cout.width(width); cout<<"DivergenceMutationStatus";
 cout<<endl;
 
-if (site_specific_flag)
-{
-  for (long i=0;i<N;i++)
-  {
-    divergent_time[i] = divergent_time_sums[i]/divergent_time_weights[i];//model averaged divergence time for site i
-  }
-}
     //Output the values for the data table containing the values of gamma and other relatives.
 	//nucleotide/codon format output
 if (output_format_num==1)
