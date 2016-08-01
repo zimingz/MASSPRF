@@ -450,8 +450,7 @@ if (site_specific_flag && vec_SelectedModels_ds.size()!=0 && vec_SelectedModels_
   }
 }
 else{
-cout<<"Error in site specific divergence time calculation; -ssd. PS/DS=1 or 0. There is not enough information for silent clustering. Please input divergence time or use the gene level divergence time."<<endl;
-throw 1;
+cout<<"Warning in site specific divergence time calculation; -ssd. There is no silent clustering for PS or DS."<<endl;
 }
 
 cout<<endl<<"Clusters from Polymorphism Replacement:"<<endl;
