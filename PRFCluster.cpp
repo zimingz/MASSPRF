@@ -3289,10 +3289,8 @@ void PRFCluster::showHelpInfo() {
   cout<<endl;
 
   cout<<"COPYRIGHT & LICENSE:"<<endl;
-  cout<<NAME<<" is distributed as open-source software and licensed under the GNU General Public License "<<endl;
-  cout<<"(Version 3; http://www.gnu.org/licenses/gpl.txt), in the hope that it will be useful, but "<<endl;
-  cout<<"WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A "<<endl;
-  cout<<"PARTICULAR PURPOSE. See the GNU General Public License for more details."<<endl;
+  cout<<NAME<<"Source codes are under a Creative Commons CC BY-NC license."<<endl;
+  cout<<"The codes can be attributed but not for commercial purpose."<<endl;
   cout<<endl;
 
   cout<<"REFERENCE:"<<endl;
