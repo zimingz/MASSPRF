@@ -565,25 +565,29 @@ int Base::readAXT(string seqfile, vector<string> &seqname, vector<string> &seq) 
 }
 
 int Base::readFasta(string seqfile, vector<string> &seqname, vector<string> &seq) {
-
 	int flag = 1;
-       
 	try	{
-
 		ifstream is(seqfile.c_str());
 		if (!is) throw "Error in opening file...";
 				
 		string temp="", name="";
 		
 		getline(is, temp, '\n');
+		//cout<<"Debug - Each line: \n"<<temp<<endl;
 		while ( (int)(temp.find('>')) > -1) {
-			name = temp.substr(1, temp.length()-1);  //remove >			
+			name = temp.substr(1, temp.length()-1);  //remove >; get the 'name' of the sequence
 			string str="";
-			getline(is, temp, '\n');
+			getline(is, temp, '\n'); //get the line with the sequence 'str' for 'name'
+			//cout<<"Debug - Seq line: \n"<<temp<<endl;
 			while((int)(temp.find('>'))<0) {
 				str += temp;
-				getline(is, temp, '\n');
-				if (is.eof()==true && temp=="") break;
+				//cout<<"Debug-Found seq: \n"<<temp<<endl;
+				getline(is, temp, '\n'); //Get the sequence 
+				if (is.eof()==true && temp=="") {
+				cout<<"Error in readFasta. Check fasta file format."<<endl;
+				cout<<"Standard fasta format should be used, '>' should be put before the taxa name and line break should be used for each sequence including the last sequence."<<endl;
+				break;
+				}
 			} 
 
 			//name = Trim(filterString(name));
@@ -592,6 +596,7 @@ int Base::readFasta(string seqfile, vector<string> &seqname, vector<string> &seq
 			
 			seqname.push_back(name);
 			seq.push_back(str);
+			//cout<<"Debug-readFasta: seqname: "<<name<<"; seq: "<<str<<endl;
 		}		
 
 		is.close();
@@ -608,7 +613,6 @@ int Base::readFasta(string seqfile, vector<string> &seqname, vector<string> &seq
 
 
 int Base::readFastaConsensus(string seqfile, vector<string> &seqname, vector<string> &seq) {
-    cout<<"Read fasta: "<<seqfile<<endl;
 	int flag = 1;
        
 	try	{
@@ -637,7 +641,11 @@ int Base::readFastaConsensus(string seqfile, vector<string> &seqname, vector<str
 				getline(is, temp, '\n');
 				//cout<<"The line "<<c2<<": "<<temp<<endl;
 				if (is.eof()==true) break;
-				if (is.eof()==true && temp=="") break;
+				if (is.eof()==true && temp=="") {
+				cout<<"Error in readFastaConsensus. Check fasta file format."<<endl;
+				cout<<"Standard fasta format should be used, '>' should be put before the taxa name and line break should be used for each sequence including the last sequence."<<endl;
+				break;}
+				
 				/*if (c2>10)
 				{ cout<<"Error in sequence. Sequence line is greater than 1000, above the threshold setup, check for bugs."<<endl;
 					break;}
