@@ -1237,6 +1237,7 @@ return 1;
 * Output:
 ***************************************************/
 string PRFCluster::getPolSysRep(vector<string> seq) {
+cout<<"Step-getPolSysRep:"<<endl;
   long i, j, k;
   long seq_length = seq[0].length();
   string cons_seq = "";
@@ -1297,7 +1298,8 @@ for(k=0; k<CODONSIZE; k++) {
 }    
 cons_seq += tmp;
 }
-
+cout<<"Finish getPolSysRep: "<<endl;
+cout<<"consensus seq: "<<cons_seq<<endl;
 return cons_seq;
 }
 /***************************************************
@@ -1306,6 +1308,7 @@ return cons_seq;
 * Output:
 ***************************************************/
 int PRFCluster::ReplaceCodon4PolSys(vector <string>& codon, vector <string>& codon_other){
+cout<<"Step_ReplaceCodon4PolSys: "<<endl;
   //To store the number of A, T, G, C in other sequences
   string symbol="ATGC";
   int site0[4]={0,0,0,0};
@@ -2984,6 +2987,7 @@ bool PRFCluster::parseParameter(int argc, const char* argv[]) {
   bool flag = true;
   int i;
   string temp;
+  site_specific_flag=1; //Use -SSD site-specific divergence time as a default option
   try {
 
     if (argc==2) {
@@ -3151,8 +3155,10 @@ else if (temp=="-T" && (i+1)<argc && divtime_flag==0){
   double num=CONVERT<double>(argv[++i]);
   Div_time = num;
   divtime_flag=1;
+  site_specific_flag=0;
   if (site_specific_flag)
   {
+    cout<<"Error! User specified divergence time -T could not be used together with site-specific divergence time option -SSD."<<endl;
     throw 1;
   }
 }
@@ -3274,11 +3280,11 @@ void PRFCluster::showHelpInfo() {
   cout<<"  -m\tModel selection and model averaging  [integer, optional], {0: use both model selection and model averaging || 1: use only model selection}, default = 0"<<endl;
   cout<<"  -ci_m\tCalculate 95% confidence intervals for results of model averaging [integer, optional], {0: NOT calculate 95% confidence intervals || 1: calculate 95% confidence intervals}, default = 0"<<endl;
   cout<<"  -s\tShow clustering results of synonymous sites from Polymorphism and Divergent sequences [integer, optional], {0: without clustering results of synonymous sites || 1: with clustering results of synonymous and replacement sites}, default = 0"<<endl;
-  cout<<"  -ssd\tEstimate site specific divergence time from silent clustering (cannot be used in conjunction with -t flag)"<<endl;
+  cout<<"  -ssd\tDefault option: use site-specific divergence time from silent site clustering (cannot be used in conjunction with -t flag)"<<endl;
   cout<<"  -r\tEstimate selection coefficient for each site [integer, optional], {0: NOT estimate selection coefficient || 1: estimate selection coefficient}, default=1"<<endl;
   cout<<"  -ci_r\tCalculate 95% confidence intervals for selection coefficient [integer, optional], {0: NOT calculate 95% confidence intervals || 1: calculate 95% confidence intervals}, default = 1"<<endl;
   cout<<"  -exact\tAlgorithm for calculating 95% confidence intervals for selection coefficient [integer, optional], {0: use stochastic algorithm || 1: use exact algorithm}, default = 0"<<endl;
-  cout<<"  -t\tSpecies divergence time [Default: estimate species divergence time from the sequences, optional]."<<endl;
+  cout<<"  -t\tUser specified species divergence time [Default: estimate site-specific divergence time using the option -ssd (cannot be used in conjunction with -ssd flag)]."<<endl;
   cout<<"  -n\tNucleotide is replaced or seen as gap when it is not A, T, G or C in the sequences [integer, optional], {0: see it as gap || 1: replace this nucleotide with the most frequently used nucleotide in other sequences}, default = 1"<<endl;
   cout<<"  -NI\tEstimate the Neutrality Index for each site [integer, optional], {0: NOT estimate Neutrality Index || 1: estimate Neutrality Index}, default=0"<<endl;
   cout<<"  -v\tVerbose output or not [integer, optional], {0: not verbose, concise output || 1: verbose output}, default=1"<<endl;
