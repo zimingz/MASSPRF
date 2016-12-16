@@ -1,37 +1,45 @@
 Ziming Zhao (ziming.gt@gmail.com)
-Updated 06/17/2016
+Updated Sep 7th, 2016
 
 
 Compiling command: 
 
 make
-
+//Note: make sure there is a ‘bin’ folder in the same folder ‘Makefile’ is in.
 or
 
 OS X 10.9 system
-g++ -O3 -o MASS-PRF_v1.1 MASSprf.cpp PRFCluster.cpp base.cpp -w
+g++ -O3 -o massprf MASSprf.cpp PRFCluster.cpp base.cpp -w
 
 
 Compiling on Unix or OS X 10.8 or before system
-c++ -O3 -o MASS-PRF_v1.1 MASSprf.cpp PRFCluster.cpp base.cpp -w
+c++ -O3 -o massprf MASSprf.cpp PRFCluster.cpp base.cpp -w
 
 
 Example commands: 
 
-Run on the nucleotide fasta format
-./MASS-PRF_v1.1 -p Attacin-C_DmDs_pol.fas -d Attacin-C_DmDs_div.fas -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -t 2.5 >output_Attacin-C_MASS-PRF_BIC.txt &
+Run on the nucleotide fasta format (-t 2.5 means a user input divergence time 2.5 MYA)
+./massprf -p Attacin-C_DmDs_pol.fas -d Attacin-C_DmDs_div.fas -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -t 2.5 >output_Attacin-C_MASS-PRF_BIC.txt &
 
 
-Run on the consensus input format (-ic 1 is used for consensus file format; and -sn is required when ic=1, for more details, see -help)
-./MASS-PRF_v1.1 -p consensus_polymorphism.txt -d consensus_divergence.txt -ic 1 -sn 11 -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -t 2.5 >output_consensus_MASS-PRF_BIC.txt &
+Run on the consensus input format (-ic 1 is used for consensus file format; and -sn is required when ic=1, for more details, see Help)
+./massprf -p consensus_polymorphism.txt -d consensus_divergence.txt -ic 1 -sn 11 -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -t 2.5 >output_consensus_MASS-PRF_BIC.txt &
 
 
 Run on the nucleotide fasta format and exhaustive 
-./MASS-PRF_v1.1 -p Pol_all_YIR024C.fas -d Div_Spar_YIR024C.fas -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 1 -t 5 >output_YIR024C_exhaustive_MACPRF_BIC.txt &
+./massprf -p Pol_all_YIR024C.fas -d Div_Spar_YIR024C.fas -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 1 -t 5 >output_YIR024C_exhaustive_MACPRF_BIC.txt &
 
 Run on the nucleotide fasta format and stochastic 
-./MASS-PRF_v1.1  -p Pol_all_YIR024C.fas -d Div_Spar_YIR024C.fas -o 1 -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -t 5 >output_YIR024C_stochastic_MASS-PRF_BIC.txt &
+./massprf -p Pol_all_YIR024C.fas -d Div_Spar_YIR024C.fas -o 1 -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -t 5 >output_YIR024C_stochastic_MASS-PRF_BIC.txt &
+
+Run with -ssd option (Site specific divergence time calculation ’-ssd’ should be always together with the option ’-s 1’; -sn is the number of species in polymorphism.
+./massprf -p SLC6A5_snps.txt -d Chimp_SLC6A5.txt -o 1 -ic 0 -sn 1000 -ci_m 1 -r 1 -s 1 -ci_r 1 -mn 30000 -ssd -n 0 >testStephen_ssd_out.txt &
+
+./massprf -p Attacin-C_DmDs_pol.fas -d Attacin-C_DmDs_div.fas -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -ssd >output_Attacin-C_MASS-PRF_SSD.txt &
+
+./massprf -p Attacin-C_DmDs_pol.fas -d Attacin-C_DmDs_div.fas -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -ssd >output_Attacin-C_MASS-PRF_SSD_imac.txt &
 
 
-For help./MASS-PRF –h For more information
+
+Help./MASS-PRF –h For more information
 Read the document “MASS-PRF_v1.1_manual.docx” in the folder ./doc/ 
