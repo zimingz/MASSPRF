@@ -8,12 +8,12 @@
 
 #define CRI(a) ((a)==0?"BIC":(a)==1?"AIC":"AICc")
 
-#define NAME "MASS-PRF"	//Program name
-#define FULLNAME "Model Averaged Site Selection - Poission Random Field"
-#define VERSION    "1.3"
-#define LASTUPDATE "December 16th, 2016"
+#define NAME "MAC-PRF"	//Program name
+#define FULLNAME "Model Averaged Clustering - Poission Random Field"
+#define VERSION    "1.2"
+#define LASTUPDATE "Feb 11st, 2014"
 #define FUNCTION "Estimate selection intensity for each single site in coding sequences by using polymorphism and divergence data."
-#define REFERENCE "Zi-Ming Zhao, Ning Li, Zhang Zhang and Jeffrey P. Townsend. (2016) Regions within coding gene sequences experience diverse intensities of natural selection inferred from polymorphism and divergence."
+#define REFERENCE "Ning Li, Zi-Ming Zhao, Zhang Zhang and Jeffrey P. Townsend. (2014) Regions within coding gene sequences experience diverse intensities of natural selection inferred from polymorphism and divergence."
 
 
 
@@ -25,16 +25,12 @@
 #define INF 50 // Maximum gamma
 #define NINF -50 // Minimum gamma
 
-//#define Model_Number 10000 //Choose models randomly, how many models are chosen.
+#define N_Random 10000 //Choose models randomly, how many models are chosen.
 
 
 #include "base.h"
 #include <map>
-#ifdef __linux__
-#include <sys/sysinfo.h>
-#endif
 #include <time.h>
-#include <thread>
 
 using namespace std;
 
@@ -105,14 +101,6 @@ struct more_than_CI
     }
 };
 
-struct pthread_stochastic_args
-{
-  struct SiteModels *pr;
-  struct SiteModels *dr;
-  long N;
-  long species_n;
-  long i;
-};
 
 class rModels {
  public:
@@ -143,37 +131,27 @@ class PRFCluster: public Base {
 
   //AIC/BIC based on sub sequence
   int ClusterSubSeq(int pos_start, int pos_end, char symbol='S', int flag_seq=0, struct SiteModels *p=NULL);
-  void Time(int time_start);
+  
   
   int init(long N);
   int ModelAveraging(long pos_start, long pos_end, long cs, long ce, double p0, double pc, double min_cri,struct SiteModels *p);
   int CI_MA(struct SiteModels *p,long N);
-  void CI_MA_threaded(struct SiteModels *pointer,long i);
 
   int SitePRF(int species_n, long N);
   int SiteNI(long N);
 
-  void SiteSpecificDivergentTime(long species_n, struct SiteModels* psp, struct SiteModels* psd, int model_ps, int model_ds, int i, vector<double> &div);
-  void DivergentTime(long species_n, long N, vector<double> &div);
+  double DivergentTime(long species_n, long N);
   //double ClusterPRF(long species_n, double pr, double dr);
 	
 
-  int r_stochastic(struct SiteModels *pr, struct SiteModels *dr, struct SiteModels *ps, struct SiteModels *ds, long N, long species_n);
-  void r_stochastic_threaded(struct SiteModels *pr, struct SiteModels *dr, struct SiteModels *ps, struct SiteModels *ds, long N, long species_n, long i, std::ostringstream* myout);
-
-
+  int CIr_stochastic(struct SiteModels *pr, struct SiteModels *dr, long N, long species_n);
   int BubbleSort(struct SiteModels *p,long site);
   long RandomModel_Num(struct SiteModels *p,long site);
   int CI_UpLow_r_stochastic(long site);
-  int CI_UpLow_r_thread(long site,double min_weight, vector<rModels> vec_rModels);
   
-  int r_exact(struct SiteModels *pr, struct SiteModels *dr, struct SiteModels *ps, struct SiteModels *ds, long N, long species_n);
-  void r_exact_threaded(struct SiteModels *pr, struct SiteModels *dr, struct SiteModels *ps, struct SiteModels *ds, long N, long species_n, long i, std::ostringstream* myout);
-  
-  double ModelSpecific_r_PRF(double p_pr, double p_dr,long species_n, double site_divergent_time);
+  int CIr_exact(struct SiteModels *pr, struct SiteModels *dr, long N, long species_n);
+  double CIs_PRF(double p_pr, double p_dr,long species_n);
   int CI_UpLow_r_exact(long site,double min_weight);
-  int ModelAveraged_r(long site,double min_weight);
-  int ModelAveraged_r_thread(long site,double min_weight,vector<rModels> vec_rModels);
 
   int CI_UpLow_r(long site,double min_weight);
 
@@ -233,7 +211,6 @@ class PRFCluster: public Base {
   vector<double> vec_lower_r;
   //Upper CI
   vector<double> vec_upper_r;
-
    
   
   //rate by model selection
@@ -252,9 +229,7 @@ class PRFCluster: public Base {
   vector<double> vec_r;
   
   
-  vector<double> divergent_time;
-  vector<double> divergent_time_sums;
-  vector<double> divergent_time_weights;
+  double divergent_time;
   
   vector<double> rWeightSums;
   vector<double> pWeightSums;
@@ -268,8 +243,6 @@ class PRFCluster: public Base {
   int flag_found_ps;
   int flag_found_ds;
   
-  int modelAveraged_p_gamma;
-
   vector<CandidateModels> vec_SelectedModels_ps;
   vector<CandidateModels> vec_SelectedModels_pr;
   vector<CandidateModels> vec_SelectedModels_ds;
@@ -320,9 +293,6 @@ class PRFCluster: public Base {
   int output_format_num;
   int input_format_num;
   int species_num;
-  int Model_Number;
-  int model_num_flag;
-  int verbose;
   //Choose the genetic code for this species
   int genetic_code;
 
@@ -351,8 +321,7 @@ class PRFCluster: public Base {
   
   //User could input their own species divergence time
   double Div_time;
-  int divtime_flag;
-  int site_specific_flag;
+  
   //Default is 1 which means to replace ambiguous nucleotide (N, R, Y, etc.) with the most frequently used nucleotide in other sequences
   //Otherwise is 0, see this codon as a gap
   int Nuc_replace;
