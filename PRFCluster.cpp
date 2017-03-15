@@ -1276,6 +1276,7 @@ cout<<"Step-getPolSysRep:"<<endl;
      continue;
    }
  }
+
     //Find the R & S for the sequences
     //R: replacement (nonsynonymous), S: sysnonymous
  bool isSys = true;		
@@ -1301,6 +1302,72 @@ cons_seq += tmp;
 cout<<"Finish getPolSysRep: "<<endl;
 cout<<"consensus seq: "<<cons_seq<<endl;
 return cons_seq;
+}
+
+int PRFCluster::scaleFactor(int length) {
+	// Find scale factor given length of string
+	int scale_factor = 1;
+	if (length > 600 && length <= 1800){
+		scale_factor = 3;
+	}
+	else if (length > 1800 && length <= 3600){
+		scale_factor = 6;
+	}
+	else if (length > 3600 && length <= 5400){
+		scale_factor = 9;
+	}
+	else if (length > 5400 && length <= 7200){
+		scale_factor = 12;
+	}
+	else if (length > 7200 && length <= 9000){
+		scale_factor = 15;
+	}
+	else if (length > 9000 && length <= 10800){
+		scale_factor = 18;
+	}
+	else if (length > 10800 && length <= 12600){
+		scale_factor = 21;
+	}
+	else if (length > 12600 && length <= 14400){
+		scale_factor = 24;
+	}
+	else if (length > 14400 && length <= 16200){
+		scale_factor = 27;
+	}
+	else if (length > 16200 && length <= 18000){
+		scale_factor = 30;
+	}
+	else if (length > 18000 && length <= 30000){
+		scale_factor = 50;
+	}
+	else if (length > 30000 && length <= 70000){
+		scale_factor = 117;
+	}
+	else{
+		scale_factor = 1;
+	}
+	return scale_factor;
+}
+std::string PRFCluster::scaleSeq(std::string seq, int scale_factor, char target_symbol) {
+	//string scaling
+
+	int length = seq.length();
+	int output_size = (length+n-1)/n;
+	char *tmp_out = new char[output_size];
+	int i;
+
+	for(i=0; i< output_size; i++){
+		std::string slice = input.substr(n*i,n);
+		if (slice.find(target_symbol) != std::string::npos){
+			tmp_out[i] = target_symbol;
+		}
+		else{
+			tmp_out[i] = '*';
+		}
+	}
+	std::string out = std::string(tmp_out);
+
+	return out;
 }
 /***************************************************
 * Function:
