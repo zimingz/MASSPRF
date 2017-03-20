@@ -204,14 +204,22 @@ class PRFCluster: public Base {
 
   
   long getDifference(string seq, int pos_start, int pos_end, char symbol='1');
- 
   
+
   //Parse parameters
   bool parseParameter(int argc, const char* argv[]);
   //Show help information
   void showHelpInfo();
   
-  
+  //Scaling related
+  int scale_factor;
+  int scale_flag;
+  int scaleFactor(int length);
+  std::string scaleSeq(std::string seq, int scale_factor, char target_symbol);
+  std::string pol_s_scaled;
+  std::string pol_r_scaled;
+  std::string div_s_scaled;
+  std::string div_r_scaled;
  public:
   vector<double> Fn1; // lookup table for Fn based on different gamma
   vector<double> Fn1_d; // lookup table for Fn_derivative based on different gamma
