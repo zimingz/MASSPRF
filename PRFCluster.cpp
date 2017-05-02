@@ -45,8 +45,6 @@ PRFCluster::PRFCluster() {
 	Nuc_replace=1;
 	NI_estimate=0;
 	modelAveraged_p_gamma=0;
-	scale_factor = 0;
-	scale_flag = 0;
 }
 
 PRFCluster::~PRFCluster() {
@@ -884,15 +882,16 @@ int PRFCluster::RunML(vector<string> pol_seq, vector<string> div_seq) {
 	cout<<"PR: "<<pr<<endl;
 	cout<<"DR: "<<dr<<endl;
 
-	if(scale_flag == 0){
+	if(scale_flag == 1 && scale_factor==1){
 		scale_factor = scaleFactor(pol_codon_consensus.length());
 		cout << "default scaling used, computed scale factor is " <<scale_factor << "\n";
 	}
-	if(scale_flag ==1 && (scale_factor == 0 || scale_factor ==1)){
+	else if(scale_flag ==0 || (scale_flag == 1 && scale_factor == 0)) {
 		cout <<"No Scaling requested \n";
+		scale_factor = 1;
 	}
 	else if (scale_flag == 1 && (scale_factor > 1)){
-		cout << "Scaling by supplied factor of" << scale_factor <<" \n";
+		cout << "Scaling by supplied factor of " << scale_factor <<" \n";
 	}
 	pol_s_scaled = scaleSeq(pol_codon_consensus, scale_factor, 'S');
 	pol_r_scaled = scaleSeq(pol_codon_consensus,scale_factor,'R');
@@ -1355,11 +1354,11 @@ string PRFCluster::getPolSysRep(vector<string> seq) {
 
 int PRFCluster::scaleFactor(int length) {
 	// Find scale factor given length of string
-	int scale_factor = 1;
+	int scale_x;
 	if(length > 600){
-		scale_factor = 3 * ((length/1800)+1);
+		scale_x = 3 * ((length/1800)+1);
 	}
-	return scale_factor;
+	return scale_x;
 }
 std::string PRFCluster::scaleSeq(std::string seq, int n, char target_symbol) {
 	//string scaling
@@ -3099,8 +3098,6 @@ bool PRFCluster::parseParameter(int argc, const char* argv[]) {
 			int modelAveraged_p_gamma_flag=0, pol_num_flag=0, input_consensus_flag=0, output_flag=0, pol_flag=0, div_flag=0, code_flag=0, criterion_flag=0,ms_flag=0, synonymous_flag=0,ci_ma_flag=0,r_flag=0,ci_r_flag=0,ci_method_flag=0, nuc_replace_flag=0, ni_flag=0;
 			model_num_flag=0;
 			int verbose_flag=0;
-			int scale_flag=0; // scale_flag 0 is default, use scaleSeq
-			int scale_factor = 0;
 			verbose=1;
 			for (i=1; i<argc; i++) {
 				//cout<<"argc: "<<argc<<" argv: "<<argv[i]<<endl;
@@ -3329,20 +3326,11 @@ bool PRFCluster::parseParameter(int argc, const char* argv[]) {
 				}
 
 				else if(temp=="-SCL" &&(i+1)<argc && scale_flag==0){
-					int num = CONVERT<int>(argv[++i]);
-					if(num == 0 || num==1){
-						scale_factor = 1;
-						scale_flag = 1;
-					}else if(num>1){
-						scale_factor = num;
-						scale_flag = 1;
-					}else{
-						throw 1;
+					scale_factor = CONVERT<int>(argv[++i]);
+					scale_flag++;
+					cout<<scale_flag;
+					cout<<scale_factor;
 					}
-				}
-				else{
-					throw 1;
-				}
 
 			}
 		}

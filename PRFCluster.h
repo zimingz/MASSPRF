@@ -212,8 +212,7 @@ class PRFCluster: public Base {
   void showHelpInfo();
   
   //Scaling related
-  int scale_factor;
-  int scale_flag;
+
   int scaleFactor(int length);
   std::string scaleSeq(std::string seq, int scale_factor, char target_symbol);
   std::string pol_s_scaled;
@@ -352,7 +351,8 @@ class PRFCluster: public Base {
   //Algorithm for calculating 95% confidence interval for r, default 0
   int ci_r_exact;
   
-
+  int scale_factor;
+  int scale_flag;
   //Default is 0 without showing the clustering results of synonymous from polymorphism and divergency sequences
   //User could choose 1 to show the clustering results of synonymous.
   int Sys_cluster;
