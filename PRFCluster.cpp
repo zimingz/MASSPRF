@@ -1023,7 +1023,7 @@ int PRFCluster::RunML(vector<string> pol_seq, vector<string> div_seq) {
 	vec_lower_rate.resize(N,0.0);
 	vec_upper_rate.resize(N,0.0);
 
-	flag_seq=0;
+	flag_seq=1;
 	cout<<"****** Start Clustering Polymorphism Replacement"<<endl;
 	time_t time_start1 = time(NULL); // Record the start time
 	q=ClusterSubSeq(0, N-1,'R',flag_seq,rep_pol);
@@ -1082,7 +1082,7 @@ int PRFCluster::RunML(vector<string> pol_seq, vector<string> div_seq) {
 		vec_MA_rate.resize(N,0.0);
 		vec_lower_rate.resize(N,0.0);
 		vec_upper_rate.resize(N,0.0);
-		flag_seq=1;
+		flag_seq=2;
 		q=ClusterSubSeq(0, N-1,'S',flag_seq,sm_div);
 		if (q == -1)
 		{
@@ -1123,7 +1123,7 @@ int PRFCluster::RunML(vector<string> pol_seq, vector<string> div_seq) {
 	vec_lower_rate.resize(N,0.0);
 	vec_upper_rate.resize(N,0.0);
 
-	flag_seq=1;
+	flag_seq=3;
 
 	cout<<"****** Start Clustering Divergence Replacement"<<endl;
 	time_start1 = time(NULL); // Record the start time
