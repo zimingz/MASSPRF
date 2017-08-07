@@ -1,5 +1,5 @@
 Ziming Zhao (ziming.gt@gmail.com)
-Updated Sep 7th, 2016
+Updated August 7th 2017
 
 
 Compiling command: 
@@ -8,15 +8,10 @@ make
 //Note: make sure there is a ‘bin’ folder in the same folder ‘Makefile’ is in.
 or
 
-OS X 10.9 system
-g++ -O3 -o massprf MASSprf.cpp PRFCluster.cpp base.cpp -w
+g++ -std=c++0x -O3 -pthread -g MASSprf.cpp PRFCluster.cpp base.cpp -o bin/massprf
 
 
-Compiling on Unix or OS X 10.8 or before system
-c++ -O3 -o massprf MASSprf.cpp PRFCluster.cpp base.cpp -w
-
-
-Example commands: 
+Example commands with input files in the same folder as massprf command line (./bin folder): 
 
 Run on the nucleotide fasta format (-t 2.5 means a user input divergence time 2.5 MYA)
 ./massprf -p Attacin-C_DmDs_pol.fas -d Attacin-C_DmDs_div.fas -o 1  -r 1 -ci_r 1 -ci_m 1 -s 1 -exact 0 -mn 30000 -t 2.5 >output_Attacin-C_MASS-PRF_BIC.txt &
@@ -41,5 +36,8 @@ Run with -ssd option (Site specific divergence time calculation ’-ssd’ shoul
 
 
 
-Help./MASS-PRF –h For more information
+Help
+./massprf –h 
+
+For more information
 Read the document “MASS-PRF_v1.1_manual.docx” in the folder ./doc/ 
