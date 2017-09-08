@@ -1,0 +1,39 @@
+14:33:22,654 main INFO out output directory initialized
+14:38:16,335 main INFO massprf_pipeline_log.txt initialized as logpath
+14:38:16,336 main INFO out output directory initialized
+14:38:47,414 main INFO massprf_pipeline_log.txt initialized as logpath
+14:38:47,414 main INFO out output directory initialized
+14:39:06,249 main INFO massprf_pipeline_log.txt initialized as logpath
+14:39:06,249 main INFO out output directory initialized
+14:39:29,887 main INFO massprf_pipeline_log.txt initialized as logpath
+14:39:29,887 main INFO out output directory initialized
+14:39:46,22 main INFO massprf_pipeline_log.txt initialized as logpath
+14:39:46,23 main INFO out output directory initialized
+14:39:59,939 main INFO massprf_pipeline_log.txt initialized as logpath
+14:39:59,939 main INFO out output directory initialized
+14:51:22,900 main INFO massprf_pipeline_log.txt initialized as logpath
+14:51:22,900 main INFO out output directory initialized
+14:52:06,379 main INFO massprf_pipeline_log.txt initialized as logpath
+14:52:06,379 main INFO out output directory initialized
+14:52:10,474 main INFO massprf_pipeline_log.txt initialized as logpath
+14:52:10,474 main INFO out output directory initialized
+14:57:50,102 main INFO massprf_pipeline_log.txt initialized as logpath
+14:57:50,102 main INFO out output directory initialized
+14:57:50,102 main INFO self.pre_alignset to out/pre_alignment
+14:57:50,102 main INFO self.scaledset to out/scaled
+14:57:50,102 main INFO self.trimmedset to out/trimmed
+14:57:50,103 main INFO self.genomedirset to out/genomes
+14:57:50,103 main INFO self.csvset to out/csv
+14:57:50,103 main INFO self.prf_preset to out/prf_preprocess
+14:57:50,103 main INFO self.alignmentsset to out/alignments
+14:54:34,115 __main__ INFO massprf_pipeline_log.txt initialized as logpath
+14:54:34,117 __main__ INFO out output directory initialized
+14:54:34,118 __main__ INFO alignmentsset to out/alignments
+14:54:34,119 __main__ INFO genomedirset to out/genomes
+14:54:34,119 __main__ INFO trimmedset to out/trimmed
+14:54:34,119 __main__ INFO prf_preset to out/prf_preprocess
+14:54:34,119 __main__ INFO scaledset to out/scaled
+14:54:34,119 __main__ INFO pre_alignset to out/pre_alignment
+14:54:34,119 __main__ INFO csvset to out/csv
+15:32:18,751 __main__ INFO Homology Map rice initialized 
+16:33:21,186 __main__ INFO Homology Map rice initialized 
