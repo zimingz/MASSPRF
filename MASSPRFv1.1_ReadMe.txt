@@ -1,5 +1,10 @@
 Ziming Zhao (ziming.gt@gmail.com)
-Updated August 7th 2017
+Updated September 8th 2017
+
+Check files in the sub-folder "/massprf-pipeline/", particularly read the file "README.md" first.
+
+For details of simulations for MASSPRF under three demographic and recombination scenarios, please check the Github folder:
+https://github.com/Townsend-Lab-Yale/MASSPRF_demo_simulations/
 
 
 Compiling command: 
