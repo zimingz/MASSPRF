@@ -44,6 +44,9 @@ PRFCluster::PRFCluster() {
 	ci_r_exact=0;
 	Nuc_replace=1;
 	NI_estimate=0;
+	scale_flag=0;
+	min_scale_flag=0;
+	min_scale_length=600;
 	modelAveraged_p_gamma=0;
 }
 
@@ -1355,8 +1358,12 @@ string PRFCluster::getPolSysRep(vector<string> seq) {
 int PRFCluster::scaleFactor(int length) {
 	// Find scale factor given length of string
 	int scale_x;
-	if(length > 600){
+	cout << "min scale length is " << endl;
+	cout << min_scale_length << endl;
+	if(length > min_scale_length){
 		scale_x = 3 * ((length/1800)+1);
+	} else {
+		scale_x = 1;
 	}
 	return scale_x;
 }
@@ -1365,7 +1372,10 @@ std::string PRFCluster::scaleSeq(std::string seq, int n, char target_symbol) {
 
 	int length = seq.length();
 	int output_size = (length+n-1)/n;
-	char *tmp_out = new char[output_size];
+	cout << "OUTPUT SIZE" << endl;
+	cout << output_size << endl;
+	std::string tmp_out (output_size, 'X'); 
+
 	int i;
 
 	for(i=0; i< output_size; i++){
@@ -1377,9 +1387,8 @@ std::string PRFCluster::scaleSeq(std::string seq, int n, char target_symbol) {
 			tmp_out[i] = '*';
 		}
 	}
-	std::string out = std::string(tmp_out);
-
-	return out;
+	cout << tmp_out.length() << endl;
+	return tmp_out;
 }
 /***************************************************
  * Function:
@@ -3075,6 +3084,7 @@ int PRFCluster::ModelAveraged_r_thread(long site,double min_weight,vector<rModel
 bool PRFCluster::parseParameter(int argc, const char* argv[]) {
 	bool flag = true;
 	int i;
+	cout << "parse parameter" << endl;
 	string temp;
 	site_specific_flag=1; //Use -SSD site-specific divergence time as a default option
 	try {
@@ -3325,12 +3335,22 @@ bool PRFCluster::parseParameter(int argc, const char* argv[]) {
 					}
 				}
 
+				else if(temp=="-A" && (i+1)<argc && min_scale_flag==0) {
+					min_scale_length = CONVERT<int>(argv[++i]);
+					min_scale_flag++;
+					cout << "MIN SCALE FACTOR" << endl;
+					cout << min_scale_flag << endl;
+
+				}
+
 				else if(temp=="-SCL" &&(i+1)<argc && scale_flag==0){
 					scale_factor = CONVERT<int>(argv[++i]);
 					scale_flag++;
+					cout << "SCALE FACTOR" << endl;
 					cout<<scale_flag;
 					cout<<scale_factor;
 					}
+
 
 			}
 		}
@@ -3381,6 +3401,7 @@ void PRFCluster::showHelpInfo() {
 	cout<<"  -n\tNucleotide is replaced or seen as gap when it is not A, T, G or C in the sequences [integer, optional], {0: see it as gap || 1: replace this nucleotide with the most frequently used nucleotide in other sequences}, default = 1"<<endl;
 	cout<<"  -NI\tEstimate the Neutrality Index for each site [integer, optional], {0: NOT estimate Neutrality Index || 1: estimate Neutrality Index}, default=0"<<endl;
 	cout<<"  -v\tVerbose output or not [integer, optional], {0: not verbose, concise output || 1: verbose output}, default=1"<<endl;
+	cout<<"  -a\tMinimum length to start scaling sequences"<<endl;
 
 	cout<<"  -rMAp\tOutput gamma calculated using model averaged pr and dr [integer, optional], {0: not used model averaged pr and dr || 1: yes, default=0}"<<endl;
 
