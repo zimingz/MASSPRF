@@ -353,6 +353,9 @@ class PRFCluster: public Base {
   
   int scale_factor;
   int scale_flag;
+
+  int min_scale_length;
+  int min_scale_flag;
   //Default is 0 without showing the clustering results of synonymous from polymorphism and divergency sequences
   //User could choose 1 to show the clustering results of synonymous.
   int Sys_cluster;
