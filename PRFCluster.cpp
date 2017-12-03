@@ -1361,7 +1361,7 @@ int PRFCluster::scaleFactor(int length) {
 	cout << "min scale length is " << endl;
 	cout << min_scale_length << endl;
 	if(length > min_scale_length){
-		scale_x = 3 * ((length/1800)+1);
+		scale_x = 3 * ((length/2700)+1);
 	} else {
 		scale_x = 1;
 	}
