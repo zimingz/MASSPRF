@@ -1358,8 +1358,8 @@ string PRFCluster::getPolSysRep(vector<string> seq) {
 int PRFCluster::scaleFactor(int length) {
 	// Find scale factor given length of string
 	int scale_x;
-	cout << "min scale length is " << endl;
-	cout << min_scale_length << endl;
+	//cout << "min scale length is " << endl;
+	//cout << min_scale_length << endl;
 	if(length > min_scale_length){
 		scale_x = 3 * ((length/2700)+1);
 	} else {
@@ -1372,8 +1372,8 @@ std::string PRFCluster::scaleSeq(std::string seq, int n, char target_symbol) {
 
 	int length = seq.length();
 	int output_size = (length+n-1)/n;
-	cout << "OUTPUT SIZE" << endl;
-	cout << output_size << endl;
+	//cout << "OUTPUT SIZE" << endl;
+	//cout << output_size << endl;
 	std::string tmp_out (output_size, 'X'); 
 
 	int i;
@@ -1387,7 +1387,7 @@ std::string PRFCluster::scaleSeq(std::string seq, int n, char target_symbol) {
 			tmp_out[i] = '*';
 		}
 	}
-	cout << tmp_out.length() << endl;
+	//cout << tmp_out.length() << endl;
 	return tmp_out;
 }
 /***************************************************
@@ -1876,7 +1876,7 @@ int PRFCluster::ClusterSubSeq(int pos_start, int pos_end,char symbol,int flag_se
 	cout<<"The total models in ClusterSubSeq: "<<vec_AllModels.size()<<endl;
 	if (found==0){
 		//If it could not reject the null model, then keep the null model.
-		if((symbol=='S' && flag_seq==0 && flag_found_ps==0) || (symbol=='R' && flag_seq==0 && flag_found_pr==0) || (symbol=='S' && flag_seq==1 && flag_found_ds==0) || (symbol=='R' && flag_seq==1 && flag_found_dr==0)){
+		if((symbol=='S' && flag_seq==0 && flag_found_ps==0) || (symbol=='R' && flag_seq==1 && flag_found_pr==0) || (symbol=='S' && flag_seq==2 && flag_found_ds==0) || (symbol=='R' && flag_seq==3 && flag_found_dr==0)){
 			double p_tmp=(double)symbol_n/(double)N;
 			CandidateModels nullmodel(0, N-1, 0, N-1, p_tmp,p_tmp, InL0, InL, AIC0, AIC, AICc0, AICc, BIC0, BIC);
 			vec_SelectedModels.push_back(nullmodel);
@@ -1887,9 +1887,9 @@ int PRFCluster::ClusterSubSeq(int pos_start, int pos_end,char symbol,int flag_se
 	}
 	else{
 		if(symbol=='S' && flag_seq==0) flag_found_ps++;
-		if(symbol=='R' && flag_seq==0) flag_found_pr++;
-		if(symbol=='S' && flag_seq==1) flag_found_ds++;
-		if(symbol=='R' && flag_seq==1) flag_found_dr++;
+		if(symbol=='R' && flag_seq==1) flag_found_pr++;
+		if(symbol=='S' && flag_seq==2) flag_found_ds++;
+		if(symbol=='R' && flag_seq==3) flag_found_dr++;
 	}
 	CandidateModels selectedmodel(pos_start, pos_end, cs_max, ce_max, p0_max, pc_max, InL0, InL, AIC0, AIC, AICc0, AICc, BIC0, BIC);
 	vec_SelectedModels.push_back(selectedmodel);
@@ -1977,9 +1977,12 @@ int PRFCluster::CI_MA(struct SiteModels *pointer,long N){
 			index++;
 			num_threads++;
 		}
+		//cout << "pushed to all threads" << endl;
 		for (long i=0;i<num_threads;i++){
+
 			MA_threads[i].join();
 		}
+		//cout << "received from all threads" ;
 		MA_threads.clear();
 	}
 	return 1;
@@ -1991,12 +1994,17 @@ int PRFCluster::CI_MA(struct SiteModels *pointer,long N){
  ***************************************************/
 void PRFCluster::CI_MA_threaded(struct SiteModels *pointer,long i){
 	//probability and weight for all possible models
+	fflush(stdout);
+
 	vector<CI> CIs;
 	CIs.clear();
 	CIs=pointer[i].sms;
 	double lower=0.0;
 	double upper=0.0;
+	double iter = 0.0;
 	while (lower<confidence_interval || upper<confidence_interval) {
+
+		fflush(stdout);
 		long min_pos=0, max_pos=0;
 		long j = 0;
 		//flag_lower==0, max_pos is in front of min_pos
@@ -2008,6 +2016,10 @@ void PRFCluster::CI_MA_threaded(struct SiteModels *pointer,long i){
 			j++;
 		}
 
+
+		fflush(stdout);
+
+
 		if(lower<confidence_interval){
 			if(max_pos>min_pos){
 				flag_lower=1;
@@ -2015,9 +2027,11 @@ void PRFCluster::CI_MA_threaded(struct SiteModels *pointer,long i){
 
 			lower += CIs[min_pos].weight;
 			vec_lower_rate[i] = CIs[min_pos].p;
-
+			fflush(stdout);
 			CIs.erase(CIs.begin() + min_pos);
+			fflush(stdout);
 		}
+		fflush(stdout);
 
 		if(upper<confidence_interval){
 			if(flag_lower==1 && max_pos!=0){
@@ -2029,6 +2043,8 @@ void PRFCluster::CI_MA_threaded(struct SiteModels *pointer,long i){
 			CIs.erase(CIs.begin() + max_pos);
 		}
 		flag_lower=0;
+
+		fflush(stdout);
 
 		//For some sites,one weight is significant hight than others, so lower=upper
 				if(CIs.size()==0){
@@ -3338,17 +3354,17 @@ bool PRFCluster::parseParameter(int argc, const char* argv[]) {
 				else if(temp=="-A" && (i+1)<argc && min_scale_flag==0) {
 					min_scale_length = CONVERT<int>(argv[++i]);
 					min_scale_flag++;
-					cout << "MIN SCALE FACTOR" << endl;
-					cout << min_scale_flag << endl;
+					//cout << "MIN SCALE FACTOR" << endl;
+					//cout << min_scale_flag << endl;
 
 				}
 
 				else if(temp=="-SCL" &&(i+1)<argc && scale_flag==0){
 					scale_factor = CONVERT<int>(argv[++i]);
 					scale_flag++;
-					cout << "SCALE FACTOR" << endl;
-					cout<<scale_flag;
-					cout<<scale_factor;
+					//cout << "SCALE FACTOR" << endl;
+					//cout<<scale_flag;
+					//cout<<scale_factor;
 					}
 
 
