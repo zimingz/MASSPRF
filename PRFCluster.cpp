@@ -5,6 +5,7 @@
  * Output:
  ***************************************************/
 #include "PRFCluster.h"
+#include "kfunc.h"
 #ifdef __linux__
 unsigned int NUM_CPU = get_nprocs_conf();
 #else
@@ -29,6 +30,7 @@ PRFCluster::PRFCluster() {
 	flag_found_dr=0;
 	flag_found_ps=0;
 	flag_found_ds=0;
+	mkt_mode=0;
 
 	//Initiate parameters
 	pol_seqfile = "";
@@ -884,6 +886,19 @@ int PRFCluster::RunML(vector<string> pol_seq, vector<string> div_seq) {
 	cout<<"DS: "<<ds<<endl;
 	cout<<"PR: "<<pr<<endl;
 	cout<<"DR: "<<dr<<endl;
+
+
+
+	if (mkt_mode == 1) {
+		ofstream mkt_file;
+		mkt_file.open("mkt_vals.txt", ios_base::app);
+		double mkt_alpha = 1.0 - (ds * pr)/(dr * ps);
+		double fisher_left_p, fisher_right_p, fisher_twosided_p;
+    	kt_fisher_exact(ds, ps, dr, pr, &fisher_left_p, &fisher_right_p, &fisher_twosided_p);
+		mkt_file << pol_seqfile << "\t" <<  ps << "\t" << pr << "\t" << ds << "\t" << dr << "\t" << mkt_alpha << "\t" << fisher_twosided_p <<  endl;
+		mkt_file.close();
+		return 0;
+	}
 
 	if(scale_flag == 1 && scale_factor==1){
 		scale_factor = scaleFactor(pol_codon_consensus.length());
@@ -3262,6 +3277,15 @@ bool PRFCluster::parseParameter(int argc, const char* argv[]) {
 					site_specific_flag=1;
 					if (divtime_flag)
 					{
+						throw 1;
+					}
+				}
+				// MKT mode
+				else if(temp=="-MKT" && (i+1)<argc){
+					int num=CONVERT<int>(argv[++i]);
+					if(num==0 || num==1){
+						mkt_mode = num;
+					}else{
 						throw 1;
 					}
 				}

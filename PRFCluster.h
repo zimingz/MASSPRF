@@ -274,6 +274,7 @@ class PRFCluster: public Base {
   int flag_found_dr;
   int flag_found_ps;
   int flag_found_ds;
+  int mkt_mode;
   
   int modelAveraged_p_gamma;
 
