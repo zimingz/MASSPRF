@@ -3118,6 +3118,7 @@ bool PRFCluster::parseParameter(int argc, const char* argv[]) {
 	cout << "parse parameter" << endl;
 	string temp;
 	site_specific_flag=1; //Use -SSD site-specific divergence time as a default option
+	Sys_cluster = 1; // use -s silent clustering as default option
 	try {
 
 		if (argc==2) {
@@ -3261,12 +3262,17 @@ bool PRFCluster::parseParameter(int argc, const char* argv[]) {
 						throw 1;
 					}
 				}
-				//Show the clustering results from synonymous sites
+				// clustering of synonymous sites: default -s 1
 				else if (temp=="-S" && (i+1)<argc && synonymous_flag==0){
 					int num=CONVERT<int>(argv[++i]);
+					Sys_cluster = 1; // default to have Sys_cluster = 1 to do clustering for silent sites
+					synonymous_flag=1;
 					if(num==0 || num==1){
-						Sys_cluster = num;
-						synonymous_flag=1;
+					    if (num==0){
+					    	Sys_cluster = num;
+						    synonymous_flag=0;
+						    cout<<"-t is required when using -s 0; otherwise default -s 1 should be used, and -ssd is implemented.\n";
+					    }
 					}else{
 						throw 1;
 					}
@@ -3432,7 +3438,7 @@ void PRFCluster::showHelpInfo() {
 	cout<<"    \tMore information about the genetic codes can be found at http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi"<<endl;
 	cout<<"  -m\tModel selection and model averaging  [integer, optional], {0: use both model selection and model averaging || 1: use only model selection}, default = 0"<<endl;
 	cout<<"  -ci_m\tCalculate 95% confidence intervals for results of model averaging [integer, optional], {0: NOT calculate 95% confidence intervals || 1: calculate 95% confidence intervals}, default = 0"<<endl;
-	cout<<"  -s\tShow clustering results of synonymous sites from Polymorphism and Divergent sequences [integer, optional], {0: without clustering results of synonymous sites || 1: with clustering results of synonymous and replacement sites}, default = 0"<<endl;
+	cout<<"  -s\tShow clustering results of synonymous sites from Polymorphism and Divergent sequences [integer, optional], {0: without clustering of synonymous sites || 1: with clustering of synonymous and replacement sites}, default = 1"<<endl;
 	cout<<"  -ssd\tDefault option: use site-specific divergence time from silent site clustering (cannot be used in conjunction with -t flag)"<<endl;
 	cout<<"  -r\tEstimate selection coefficient for each site [integer, optional], {0: NOT estimate selection coefficient || 1: estimate selection coefficient}, default=1"<<endl;
 	cout<<"  -ci_r\tCalculate 95% confidence intervals for selection coefficient [integer, optional], {0: NOT calculate 95% confidence intervals || 1: calculate 95% confidence intervals}, default = 1"<<endl;
